@@ -1,1 +1,2 @@
 \\mac\home\documents\visual studio 2015\Projects\DBLab\DBLab\bin\Debug\DBLab.exe.config
+E:\ВШЭ\БД\DBLab\DBLab\bin\Debug\DBLab.exe.config
