@@ -1,2 +1,11 @@
 \\mac\home\documents\visual studio 2015\Projects\DBLab\DBLab\bin\Debug\DBLab.exe.config
 E:\ВШЭ\БД\DBLab\DBLab\bin\Debug\DBLab.exe.config
+\\Mac\Home\DBLab\DBLab\bin\Debug\DBLab.exe.config
+\\Mac\Home\DBLab\DBLab\bin\Debug\DBLab.exe
+\\Mac\Home\DBLab\DBLab\bin\Debug\DBLab.pdb
+\\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.csprojResolveAssemblyReference.cache
+\\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.FormMain.resources
+\\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.Properties.Resources.resources
+\\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.csproj.GenerateResource.Cache
+\\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.exe
+\\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.pdb
