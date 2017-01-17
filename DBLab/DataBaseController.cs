@@ -32,5 +32,42 @@ namespace DBLab
             }
             return dt;
         }
+
+        public static void AddTable(string _name, SqlConnection sqlConnection)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "INSERT INTO Entity (Name) VALUES(@name)" ;
+            command.Parameters.Add("Name", SqlDbType.NVarChar).Value =
+               _name;
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        public static void EditTable(string _oldname, string _name, SqlConnection sqlConnection)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+
+            DataTable dt = DisplayTable("dbo.Entity WHERE Name="+_oldname, sqlConnection);
+
+            command.CommandText = "UPDATE Entity SET Name = @name WHERE ID="+dt.Rows[0][0];
+            command.Parameters.Add("Name", SqlDbType.NVarChar).Value =
+               _name;
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

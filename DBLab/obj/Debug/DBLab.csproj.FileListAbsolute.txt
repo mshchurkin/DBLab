@@ -9,3 +9,12 @@ E:\ВШЭ\БД\DBLab\DBLab\bin\Debug\DBLab.exe.config
 \\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.csproj.GenerateResource.Cache
 \\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.exe
 \\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.pdb
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.exe
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.pdb
+E:\ВШЭ\БД\DBLab\DBLab\bin\Debug\DBLab.exe
+E:\ВШЭ\БД\DBLab\DBLab\bin\Debug\DBLab.pdb
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.csprojResolveAssemblyReference.cache
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.FormAddEditTable.resources
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.FormMain.resources
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.Properties.Resources.resources
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.csproj.GenerateResource.Cache

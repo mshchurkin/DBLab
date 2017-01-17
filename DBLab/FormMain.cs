@@ -15,6 +15,9 @@ namespace DBLab
     {
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
+        private static String connectionString =
+                $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";
+        SqlConnection sqlConn = new SqlConnection(connectionString);
 
         public FormMain()
         {
@@ -23,10 +26,6 @@ namespace DBLab
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-               
-            String connectionString =
-                    $@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
-            SqlConnection sqlConn = new SqlConnection(connectionString);
             //System.Security.SecureString ss= new System.Security.SecureString();
             //ss.MakeReadOnly();
             //SqlCredential sqlCred = new SqlCredential("9C4A/mshchurkin", ss)
@@ -35,38 +34,67 @@ namespace DBLab
             dgv.DataSource = DataBaseController.DisplayTable("dbo.String", sqlConn);
         }
 
-       
-           
+        private void addTable_Click(object sender, EventArgs e)
+        {
+            FormAddEditTable addTable = new FormAddEditTable();
+            addTable.DialogResult = DialogResult.Cancel;
+            addTable.Text = "Добавление" + addTable.Text;
+            addTable.ShowDialog();
+            if (addTable.DialogResult == DialogResult.OK)
+            {
+                DataBaseController.AddTable(addTable._Name, sqlConn);
+            }
+            // !!!! сюда добавить обновление листвью после добавления таблицы
+        }
 
-    //    private void GetData(string selectCommand)
-    //    {
-    //        try
-    //        {
-    //            // Specify a connection string. Replace the given value with a 
-    //            // valid connection string for a Northwind SQL Server sample
-    //            // database accessible to your system.
-                
-    //            dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
-            
-    //            // Create a command builder to generate SQL update, insert, and
-    //            // delete commands based on selectCommand. These are used to
-    //            // update the database.
-    //            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
+        private void editTable_Click(object sender, EventArgs e)
+        {
+            string oldn;
+            FormAddEditTable editTable = new FormAddEditTable();
+            oldn = lvTables.SelectedItems[0].Text;
+            editTable.DialogResult = DialogResult.Cancel;
+            editTable._Name = oldn;
+            editTable.Text = "Редактирвоание " + editTable.Text;
 
-    //            // Populate a new data table and bind it to the BindingSource.
-    //            DataTable table = new DataTable();
-    //            table.Locale = System.Globalization.CultureInfo.InvariantCulture;
-    //            dataAdapter.Fill(table);
-    //            bindingSource1.DataSource = table;
+            editTable.ShowDialog();
+            if (editTable.DialogResult == DialogResult.OK)
+            {
+                DataBaseController.EditTable(oldn, editTable._Name, sqlConn);
+            }
+        }
 
-    //            // Resize the DataGridView columns to fit the newly loaded content.
-    //            dgv.AutoResizeColumns(
-    //                DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-    //        }
-    //        catch (SqlException)
-    //        {
-    //            MessageBox.Show("fuck");
-    //        }
-    //    }
+
+
+
+        //    private void GetData(string selectCommand)
+        //    {
+        //        try
+        //        {
+        //            // Specify a connection string. Replace the given value with a 
+        //            // valid connection string for a Northwind SQL Server sample
+        //            // database accessible to your system.
+
+        //            dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
+
+        //            // Create a command builder to generate SQL update, insert, and
+        //            // delete commands based on selectCommand. These are used to
+        //            // update the database.
+        //            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
+
+        //            // Populate a new data table and bind it to the BindingSource.
+        //            DataTable table = new DataTable();
+        //            table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+        //            dataAdapter.Fill(table);
+        //            bindingSource1.DataSource = table;
+
+        //            // Resize the DataGridView columns to fit the newly loaded content.
+        //            dgv.AutoResizeColumns(
+        //                DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+        //        }
+        //        catch (SqlException)
+        //        {
+        //            MessageBox.Show("fuck");
+        //        }
+        //    }
     }
 }
