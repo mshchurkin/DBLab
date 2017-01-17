@@ -26,6 +26,7 @@ namespace DBLab
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             //System.Security.SecureString ss= new System.Security.SecureString();
             //ss.MakeReadOnly();
             //SqlCredential sqlCred = new SqlCredential("9C4A/mshchurkin", ss)
@@ -96,5 +97,17 @@ namespace DBLab
         //            MessageBox.Show("fuck");
         //        }
         //    }
+=======
+            String connectionString =
+                    $@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+            SqlConnection sqlConn = new SqlConnection(connectionString);
+            foreach (string elem in DataBaseController.listFiller(sqlConn))
+            {
+                lvTables.Items.Add(elem);
+            }
+            dgv.DataSource = DataBaseController.DisplayTable("dbo.String", sqlConn);
+        }
+>>>>>>> issue#2_load_tables_on_start
     }
 }
+    
