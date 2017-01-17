@@ -64,7 +64,7 @@ namespace DBLab
         {
             SqlCommand command = sqlConnection.CreateCommand();
 
-            DataTable dt = DisplayTable("dbo.Entity WHERE Name="+_oldname, sqlConnection);
+            DataTable dt = DisplayTable("dbo.Entity WHERE Name='"+_oldname+"'", sqlConnection);
 
             command.CommandText = "UPDATE Entity SET Name = @name WHERE ID="+dt.Rows[0][0];
             command.Parameters.Add("Name", SqlDbType.NVarChar).Value =
