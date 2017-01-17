@@ -11,6 +11,16 @@ namespace DBLab
 {
     class DataBaseController
     {
+        public static IEnumerable<string> listFiller(SqlConnection sqlConnection)
+        {
+            sqlConnection.Open();
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "SELECT * FROM dbo.Entity";
+            SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                    yield return (reader.GetString(1));
+            sqlConnection.Close();
+        }
         public static DataTable DisplayTable(string tableName, SqlConnection sqlConnection)
         {
             SqlCommand command = sqlConnection.CreateCommand();

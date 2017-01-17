@@ -40,6 +40,8 @@
             // 
             // lvTables
             // 
+            this.lvTables.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.lvTables.AutoArrange = false;
             this.lvTables.Dock = System.Windows.Forms.DockStyle.Left;
             this.lvTables.Location = new System.Drawing.Point(0, 25);
             this.lvTables.Name = "lvTables";
