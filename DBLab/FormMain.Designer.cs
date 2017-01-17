@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.lvTables = new System.Windows.Forms.ListView();
             this.tsMain = new System.Windows.Forms.ToolStrip();
-            this.dgv = new System.Windows.Forms.DataGridView();
             this.addTable = new System.Windows.Forms.ToolStripButton();
             this.deleteTable = new System.Windows.Forms.ToolStripButton();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -58,15 +58,6 @@
             this.tsMain.TabIndex = 1;
             this.tsMain.Text = "toolStrip1";
             // 
-            // dgv
-            // 
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.Location = new System.Drawing.Point(171, 25);
-            this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(484, 413);
-            this.dgv.TabIndex = 2;
-            // 
             // addTable
             // 
             this.addTable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -83,8 +74,18 @@
             this.deleteTable.Name = "deleteTable";
             this.deleteTable.Size = new System.Drawing.Size(23, 22);
             // 
+            // dgv
+            // 
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.Location = new System.Drawing.Point(171, 25);
+            this.dgv.Name = "dgv";
+            this.dgv.Size = new System.Drawing.Size(484, 413);
+            this.dgv.TabIndex = 2;
+            // 
             // FormMain
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(655, 438);
@@ -93,6 +94,7 @@
             this.Controls.Add(this.tsMain);
             this.Name = "FormMain";
             this.Text = "Работа с БД";
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
