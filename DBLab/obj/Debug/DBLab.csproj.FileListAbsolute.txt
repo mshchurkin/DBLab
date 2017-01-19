@@ -19,3 +19,13 @@ E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.FormMain.resources
 E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.Properties.Resources.resources
 E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.csproj.GenerateResource.Cache
 \\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.FormAddEditTable.resources
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\bin\Debug\DBLab.exe.config
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.exe
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.pdb
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\bin\Debug\DBLab.exe
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\bin\Debug\DBLab.pdb
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.csprojResolveAssemblyReference.cache
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.FormAddEditTable.resources
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.FormMain.resources
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.Properties.Resources.resources
+C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.csproj.GenerateResource.Cache

@@ -13,7 +13,8 @@ namespace DBLab
     {
         private static String connectionString =
                 // $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
-                /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+                /* Мишино:*///$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+                /* Мишино:*/$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
         public static SqlConnection sqlConnection = new SqlConnection(connectionString);
         public static bool isConnected = false;
         public static void Coneect()
@@ -43,6 +44,7 @@ namespace DBLab
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                     yield return (reader.GetString(1));
+                reader.Close();
             }
         }
         public static DataTable DisplayTable(string tableName)
@@ -74,7 +76,7 @@ namespace DBLab
         {
             SqlCommand command = sqlConnection.CreateCommand();
 
-            DataTable dt = DisplayTable("dbo.Entity WHERE Name='"+_oldname+"'");
+            DataTable dt = DisplayTable("dbo.Entity WHERE Name=N'"+_oldname+"'");
 
             command.CommandText = "UPDATE Entity SET Name = @name WHERE ID="+dt.Rows[0][0];
             command.Parameters.Add("Name", SqlDbType.NVarChar).Value =
