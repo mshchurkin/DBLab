@@ -15,11 +15,6 @@ namespace DBLab
     {
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
-        private static String connectionString =
-                $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
-                // Мишино: $@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
-        SqlConnection sqlConn = new SqlConnection(connectionString);
-
         public FormMain()
         {
             InitializeComponent();
@@ -27,14 +22,11 @@ namespace DBLab
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            /*String connectionString =
-                       $@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
-               SqlConnection sqlConn = new SqlConnection(connectionString);*/
-            foreach (string elem in DataBaseController.listFiller(sqlConn))
+            foreach (string elem in DataBaseController.listFiller())
             {
                 lvTables.Items.Add(elem);
             }
-            //dgv.DataSource = DataBaseController.DisplayTable("dbo.String", sqlConn);
+            //dgv.DataSource = DataBaseController.DisplayTable("dbo.String);
         }
 
         private void addTable_Click(object sender, EventArgs e)
@@ -45,7 +37,7 @@ namespace DBLab
             addTable.ShowDialog();
             if (addTable.DialogResult == DialogResult.OK)
             {
-                DataBaseController.AddTable(addTable._Name, sqlConn);
+                DataBaseController.AddTable(addTable._Name);
             }
             lvTables.Clear();
             this.FormMain_Load(sender, e);
@@ -69,7 +61,7 @@ namespace DBLab
                 editTable.ShowDialog();
                 if (editTable.DialogResult == DialogResult.OK)
                 {
-                    DataBaseController.EditTable(oldn, editTable._Name, sqlConn);
+                    DataBaseController.EditTable(oldn, editTable._Name);
                 }
                 lvTables.Clear();
                 this.FormMain_Load(sender, e);
