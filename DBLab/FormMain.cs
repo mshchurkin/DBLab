@@ -15,10 +15,6 @@ namespace DBLab
     {
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
-        private static String connectionString =
-                $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";
-        SqlConnection sqlConn = new SqlConnection(connectionString);
-
         public FormMain()
         {
             InitializeComponent();
@@ -26,14 +22,20 @@ namespace DBLab
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //System.Security.SecureString ss= new System.Security.SecureString();
-            //ss.MakeReadOnly();
-            //SqlCredential sqlCred = new SqlCredential("9C4A/mshchurkin", ss)
-            // Bind the DataGridView to the BindingSource
-            // and load the data from the database.
-            dgv.DataSource = DataBaseController.DisplayTable("dbo.String", sqlConn);
+            editTable.Enabled = false;
+            deleteTable.Enabled = false;
+            foreach (string elem in DataBaseController.listFiller())
+            {
+                lvTables.Items.Add(elem);
+            }
+            CheckListBox();
+            //dgv.DataSource = DataBaseController.DisplayTable("dbo.String", sqlConn);
         }
 
+        private void FormMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DataBaseController.Disconnect();
+        }
         private void addTable_Click(object sender, EventArgs e)
         {
             FormAddEditTable addTable = new FormAddEditTable();
@@ -42,59 +44,49 @@ namespace DBLab
             addTable.ShowDialog();
             if (addTable.DialogResult == DialogResult.OK)
             {
-                DataBaseController.AddTable(addTable._Name, sqlConn);
+                DataBaseController.AddTable(addTable._Name);
             }
-            // !!!! сюда добавить обновление листвью после добавления таблицы
+            lvTables.Clear();
+            this.FormMain_Load(sender, e);
         }
 
         private void editTable_Click(object sender, EventArgs e)
         {
             string oldn;
-            FormAddEditTable editTable = new FormAddEditTable();
-            oldn = lvTables.SelectedItems[0].Text;
-            editTable.DialogResult = DialogResult.Cancel;
-            editTable._Name = oldn;
-            editTable.Text = "Редактирвоание " + editTable.Text;
-
-            editTable.ShowDialog();
-            if (editTable.DialogResult == DialogResult.OK)
+            if (lvTables.SelectedItems.Count == 0)
             {
-                DataBaseController.EditTable(oldn, editTable._Name, sqlConn);
+                MessageBox.Show("Не выбрана таблица", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                FormAddEditTable editTable = new FormAddEditTable();
+                oldn = lvTables.SelectedItems[0].Text;
+                editTable.DialogResult = DialogResult.Cancel;
+                editTable._Name = oldn;
+                editTable.Text = "Редактирование " + editTable.Text;
+
+                editTable.ShowDialog();
+                if (editTable.DialogResult == DialogResult.OK)
+                {
+                    DataBaseController.EditTable(oldn, editTable._Name);
+                }
+                lvTables.Clear();
+                this.FormMain_Load(sender, e);
             }
         }
 
-
-
-
-        //    private void GetData(string selectCommand)
-        //    {
-        //        try
-        //        {
-        //            // Specify a connection string. Replace the given value with a 
-        //            // valid connection string for a Northwind SQL Server sample
-        //            // database accessible to your system.
-
-        //            dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
-
-        //            // Create a command builder to generate SQL update, insert, and
-        //            // delete commands based on selectCommand. These are used to
-        //            // update the database.
-        //            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
-
-        //            // Populate a new data table and bind it to the BindingSource.
-        //            DataTable table = new DataTable();
-        //            table.Locale = System.Globalization.CultureInfo.InvariantCulture;
-        //            dataAdapter.Fill(table);
-        //            bindingSource1.DataSource = table;
-
-        //            // Resize the DataGridView columns to fit the newly loaded content.
-        //            dgv.AutoResizeColumns(
-        //                DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-        //        }
-        //        catch (SqlException)
-        //        {
-        //            MessageBox.Show("fuck");
-        //        }
-        //    }
+        private void CheckListBox()
+        {
+            if (lvTables.Items.Count != 0)
+            {
+                editTable.Enabled = true;
+                deleteTable.Enabled = true;
+            }
+            else
+            {
+                editTable.Enabled = false;
+                deleteTable.Enabled = false;
+            }
+        }
     }
 }
