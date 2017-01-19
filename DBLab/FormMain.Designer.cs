@@ -33,8 +33,8 @@
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.addTable = new System.Windows.Forms.ToolStripButton();
             this.editTable = new System.Windows.Forms.ToolStripButton();
-            this.dgv = new System.Windows.Forms.DataGridView();
             this.deleteTable = new System.Windows.Forms.ToolStripButton();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -44,6 +44,7 @@
             this.lvTables.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.lvTables.AutoArrange = false;
             this.lvTables.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lvTables.LabelWrap = false;
             this.lvTables.Location = new System.Drawing.Point(0, 25);
             this.lvTables.MultiSelect = false;
             this.lvTables.Name = "lvTables";
@@ -81,6 +82,14 @@
             this.editTable.Size = new System.Drawing.Size(23, 22);
             this.editTable.Click += new System.EventHandler(this.editTable_Click);
             // 
+            // deleteTable
+            // 
+            this.deleteTable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.deleteTable.Image = ((System.Drawing.Image)(resources.GetObject("deleteTable.Image")));
+            this.deleteTable.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteTable.Name = "deleteTable";
+            this.deleteTable.Size = new System.Drawing.Size(23, 22);
+            // 
             // dgv
             // 
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -89,14 +98,6 @@
             this.dgv.Name = "dgv";
             this.dgv.Size = new System.Drawing.Size(484, 413);
             this.dgv.TabIndex = 2;
-            // 
-            // deleteTable
-            // 
-            this.deleteTable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.deleteTable.Image = ((System.Drawing.Image)(resources.GetObject("deleteTable.Image")));
-            this.deleteTable.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteTable.Name = "deleteTable";
-            this.deleteTable.Size = new System.Drawing.Size(23, 22);
             // 
             // FormMain
             // 

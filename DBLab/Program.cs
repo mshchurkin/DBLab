@@ -16,6 +16,7 @@ namespace DBLab
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            DataBaseController.Coneect();
             Application.Run(new FormMain());
         }
     }
