@@ -53,19 +53,26 @@ namespace DBLab
         private void editTable_Click(object sender, EventArgs e)
         {
             string oldn;
-            FormAddEditTable editTable = new FormAddEditTable();
-            oldn = lvTables.SelectedItems[0].Text;
-            editTable.DialogResult = DialogResult.Cancel;
-            editTable._Name = oldn;
-            editTable.Text = "Редактирвоание " + editTable.Text;
-
-            editTable.ShowDialog();
-            if (editTable.DialogResult == DialogResult.OK)
+            if (lvTables.SelectedItems.Count == 0)
             {
-                DataBaseController.EditTable(oldn, editTable._Name);
+                MessageBox.Show("Не выбрана таблица", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            lvTables.Clear();
-            this.FormMain_Load(sender, e);
+            else
+            {
+                FormAddEditTable editTable = new FormAddEditTable();
+                oldn = lvTables.SelectedItems[0].Text;
+                editTable.DialogResult = DialogResult.Cancel;
+                editTable._Name = oldn;
+                editTable.Text = "Редактирование " + editTable.Text;
+
+                editTable.ShowDialog();
+                if (editTable.DialogResult == DialogResult.OK)
+                {
+                    DataBaseController.EditTable(oldn, editTable._Name);
+                }
+                lvTables.Clear();
+                this.FormMain_Load(sender, e);
+            }
         }
 
         private void CheckListBox()
