@@ -18,3 +18,4 @@ E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.FormAddEditTable.resources
 E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.FormMain.resources
 E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.Properties.Resources.resources
 E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.csproj.GenerateResource.Cache
+\\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.FormAddEditTable.resources

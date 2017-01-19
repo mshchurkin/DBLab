@@ -11,72 +11,77 @@ namespace DBLab
 {
     class DataBaseController
     {
-        public static IEnumerable<string> listFiller(SqlConnection sqlConnection)
+        private static String connectionString =
+                // $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
+                /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+        public static SqlConnection sqlConnection = new SqlConnection(connectionString);
+        public static bool isConnected = false;
+        public static void Coneect()
         {
-            sqlConnection.Open();
-            SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "SELECT * FROM dbo.Entity";
-            SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                    yield return (reader.GetString(1));
-            sqlConnection.Close();
-        }
-        public static DataTable DisplayTable(string tableName, SqlConnection sqlConnection)
-        {
-            SqlCommand command = sqlConnection.CreateCommand();
-        command.CommandText = "SELECT * FROM " + tableName;
-            DataTable dt = new DataTable();
-        SqlDataAdapter adapter = new SqlDataAdapter(command);
-            sqlConnection.Open();
             try
             {
-                adapter.Fill(dt);
+                sqlConnection.Open();
+                isConnected = true;
             }
             catch
             {
                 MessageBox.Show("Connection failed!", "Error!");
             }
-            finally
-            {
+        }
+        public static void Disconnect()
+        {
+            if (sqlConnection.State == ConnectionState.Open)
                 sqlConnection.Close();
+        }
+        public static IEnumerable<string> listFiller()
+        {
+            if (isConnected ==true)
+            {
+                SqlCommand command = sqlConnection.CreateCommand();
+                command.CommandText = "SELECT * FROM dbo.Entity";
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                    yield return (reader.GetString(1));
+            }
+        }
+        public static DataTable DisplayTable(string tableName)
+        {
+                SqlCommand command = sqlConnection.CreateCommand();
+                command.CommandText = "SELECT * FROM " + tableName;
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
             }
             return dt;
         }
 
-        public static void AddTable(string _name, SqlConnection sqlConnection)
+        public static void AddTable(string _name)
         {
             SqlCommand command = sqlConnection.CreateCommand();
             command.CommandText = "INSERT INTO Entity (Name) VALUES(@name)" ;
             command.Parameters.Add("Name", SqlDbType.NVarChar).Value =
                _name;
-            sqlConnection.Open();
-            try
+            if (isConnected == true)
             {
                 command.ExecuteNonQuery();
             }
-            finally
-            {
-                sqlConnection.Close();
-            }
         }
 
-        public static void EditTable(string _oldname, string _name, SqlConnection sqlConnection)
+        public static void EditTable(string _oldname, string _name)
         {
             SqlCommand command = sqlConnection.CreateCommand();
 
-            DataTable dt = DisplayTable("dbo.Entity WHERE Name='"+_oldname+"'", sqlConnection);
+            DataTable dt = DisplayTable("dbo.Entity WHERE Name='"+_oldname+"'");
 
             command.CommandText = "UPDATE Entity SET Name = @name WHERE ID="+dt.Rows[0][0];
             command.Parameters.Add("Name", SqlDbType.NVarChar).Value =
                _name;
-            sqlConnection.Open();
-            try
+            if (isConnected == true)
             {
                 command.ExecuteNonQuery();
-            }
-            finally
-            {
-                sqlConnection.Close();
             }
         }
     }
