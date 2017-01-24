@@ -31,9 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.lvTables = new System.Windows.Forms.ListView();
             this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.addTable = new System.Windows.Forms.ToolStripButton();
             this.editTable = new System.Windows.Forms.ToolStripButton();
             this.deleteTable = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.addAttribute = new System.Windows.Forms.ToolStripButton();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -55,14 +58,23 @@
             // tsMain
             // 
             this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
             this.addTable,
             this.editTable,
-            this.deleteTable});
+            this.deleteTable,
+            this.toolStripLabel2,
+            this.addAttribute});
             this.tsMain.Location = new System.Drawing.Point(0, 0);
             this.tsMain.Name = "tsMain";
             this.tsMain.Size = new System.Drawing.Size(655, 25);
             this.tsMain.TabIndex = 1;
             this.tsMain.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(121, 22);
+            this.toolStripLabel1.Text = "Работа с таблицами:";
             // 
             // addTable
             // 
@@ -89,6 +101,21 @@
             this.deleteTable.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteTable.Name = "deleteTable";
             this.deleteTable.Size = new System.Drawing.Size(23, 22);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(125, 22);
+            this.toolStripLabel2.Text = "Работа с атрибутами:";
+            // 
+            // addAttribute
+            // 
+            this.addAttribute.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addAttribute.Image = ((System.Drawing.Image)(resources.GetObject("addAttribute.Image")));
+            this.addAttribute.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addAttribute.Name = "addAttribute";
+            this.addAttribute.Size = new System.Drawing.Size(23, 22);
+            this.addAttribute.Click += new System.EventHandler(this.addAttribute_Click);
             // 
             // dgv
             // 
@@ -127,6 +154,9 @@
         private System.Windows.Forms.ToolStripButton addTable;
         private System.Windows.Forms.ToolStripButton editTable;
         private System.Windows.Forms.ToolStripButton deleteTable;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripButton addAttribute;
     }
 }
 

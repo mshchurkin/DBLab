@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBaseController.cs" />
+    <Compile Include="FormAddEditAttribute.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddEditAttribute.Designer.cs">
+      <DependentUpon>FormAddEditAttribute.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAddEditTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +67,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAddEditAttribute.resx">
+      <DependentUpon>FormAddEditAttribute.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAddEditTable.resx">
       <DependentUpon>FormAddEditTable.cs</DependentUpon>
     </EmbeddedResource>

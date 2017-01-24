@@ -36,6 +36,7 @@ namespace DBLab
         {
             DataBaseController.Disconnect();
         }
+
         private void addTable_Click(object sender, EventArgs e)
         {
             FormAddEditTable addTable = new FormAddEditTable();
@@ -86,6 +87,26 @@ namespace DBLab
             {
                 editTable.Enabled = false;
                 deleteTable.Enabled = false;
+            }
+        }
+
+        private void addAttribute_Click(object sender, EventArgs e)
+        {
+            if (lvTables.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Не выбрана таблица", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                FormAddEditAttribute addAttribute = new FormAddEditAttribute();
+                addAttribute.DialogResult = DialogResult.Cancel;
+                addAttribute.Text = "Добавление" + addAttribute.Text;
+                addAttribute.ShowDialog();
+                if (addAttribute.DialogResult == DialogResult.OK)
+                {
+                }
+                lvTables.Clear();
+                this.FormMain_Load(sender, e);
             }
         }
     }
