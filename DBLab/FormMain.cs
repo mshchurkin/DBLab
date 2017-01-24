@@ -45,7 +45,9 @@ namespace DBLab
             addTable.ShowDialog();
             if (addTable.DialogResult == DialogResult.OK)
             {
-                DataBaseController.AddTable(addTable._Name);
+                int result = DataBaseController.AddTable(addTable._Name);
+                if (result == 0)
+                    MessageBox.Show("Таблица с таким именем уже существует.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             lvTables.Clear();
             this.FormMain_Load(sender, e);
@@ -69,7 +71,9 @@ namespace DBLab
                 editTable.ShowDialog();
                 if (editTable.DialogResult == DialogResult.OK)
                 {
-                    DataBaseController.EditTable(oldn, editTable._Name);
+                    int result = DataBaseController.EditTable(oldn, editTable._Name);
+                    if (result == 0)
+                        MessageBox.Show("Таблица с таким именем уже существует.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 lvTables.Clear();
                 this.FormMain_Load(sender, e);
@@ -100,7 +104,8 @@ namespace DBLab
             {
                 FormAddEditAttribute addAttribute = new FormAddEditAttribute();
                 addAttribute.DialogResult = DialogResult.Cancel;
-                addAttribute.Text = "Добавление" + addAttribute.Text;
+                addAttribute.tableName = lvTables.SelectedItems[0].Text;
+                addAttribute.Text = addAttribute.Text + " \"" + addAttribute.tableName + "\"";
                 addAttribute.ShowDialog();
                 if (addAttribute.DialogResult == DialogResult.OK)
                 {
