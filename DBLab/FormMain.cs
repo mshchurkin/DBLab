@@ -36,6 +36,7 @@ namespace DBLab
         {
             DataBaseController.Disconnect();
         }
+
         private void addTable_Click(object sender, EventArgs e)
         {
             FormAddEditTable addTable = new FormAddEditTable();
@@ -44,7 +45,9 @@ namespace DBLab
             addTable.ShowDialog();
             if (addTable.DialogResult == DialogResult.OK)
             {
-                DataBaseController.AddTable(addTable._Name);
+                int result = DataBaseController.AddTable(addTable._Name);
+                if (result == 0)
+                    MessageBox.Show("Таблица с таким именем уже существует.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             lvTables.Clear();
             this.FormMain_Load(sender, e);
@@ -68,7 +71,9 @@ namespace DBLab
                 editTable.ShowDialog();
                 if (editTable.DialogResult == DialogResult.OK)
                 {
-                    DataBaseController.EditTable(oldn, editTable._Name);
+                    int result = DataBaseController.EditTable(oldn, editTable._Name);
+                    if (result == 0)
+                        MessageBox.Show("Таблица с таким именем уже существует.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 lvTables.Clear();
                 this.FormMain_Load(sender, e);
@@ -86,6 +91,27 @@ namespace DBLab
             {
                 editTable.Enabled = false;
                 deleteTable.Enabled = false;
+            }
+        }
+
+        private void addAttribute_Click(object sender, EventArgs e)
+        {
+            if (lvTables.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Не выбрана таблица", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                FormAddEditAttribute addAttribute = new FormAddEditAttribute();
+                addAttribute.DialogResult = DialogResult.Cancel;
+                addAttribute.tableName = lvTables.SelectedItems[0].Text;
+                addAttribute.Text = addAttribute.Text + " \"" + addAttribute.tableName + "\"";
+                addAttribute.ShowDialog();
+                if (addAttribute.DialogResult == DialogResult.OK)
+                {
+                }
+                lvTables.Clear();
+                this.FormMain_Load(sender, e);
             }
         }
     }
