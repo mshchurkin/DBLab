@@ -45,6 +45,13 @@ namespace DBLab
             DataTable dt = DataBaseController.DisplayTable("Entity where Name=N'" + tableName + "'");
             tableid = Convert.ToInt32(dt.Rows[0][0]);
             dgvAttributes.DataSource = DataBaseController.FillDgvAttr(tableid);
+            for(int i=0; i<dgvAttributes.RowCount; i++)
+            {
+                dgvAttributes.Rows[i].Cells[0].Value = dgvAttributes.Rows[i].Cells[2].Value.ToString();
+                dgvAttributes.UpdateCellValue(2, i);
+            }
+            dgvAttributes.Columns[0].DisplayIndex = 1;
+            dgvAttributes.Columns[2].Visible = false;
         }
     }
 }
