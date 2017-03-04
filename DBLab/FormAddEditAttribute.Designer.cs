@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvAttributes = new System.Windows.Forms.DataGridView();
+            this.Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cmsDeleteRow = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiDeleteRow = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddRelations = new System.Windows.Forms.Button();
@@ -43,7 +44,6 @@
             this.cbxKey = new System.Windows.Forms.CheckBox();
             this.cbxIsNull = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
-            this.Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttributes)).BeginInit();
             this.cmsDeleteRow.SuspendLayout();
             this.SuspendLayout();
@@ -67,6 +67,19 @@
             this.dgvAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAttributes.Size = new System.Drawing.Size(448, 162);
             this.dgvAttributes.TabIndex = 0;
+            this.dgvAttributes.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttributes_CellEndEdit);
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Тип";
+            this.Type.Items.AddRange(new object[] {
+            "integer",
+            "real",
+            "string",
+            "date"});
+            this.Type.Name = "Type";
+            this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // cmsDeleteRow
             // 
@@ -183,19 +196,6 @@
             this.btnOK.TabIndex = 3;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // Type
-            // 
-            this.Type.HeaderText = "Тип";
-            this.Type.Items.AddRange(new object[] {
-            "integer",
-            "real",
-            "string",
-            "date"});
-            this.Type.Name = "Type";
-            this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // FormAddEditAttribute
             // 
