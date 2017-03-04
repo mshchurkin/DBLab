@@ -53,6 +53,12 @@
     <Compile Include="FormAddEditAttribute.Designer.cs">
       <DependentUpon>FormAddEditAttribute.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAddEditRelation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddEditRelation.Designer.cs">
+      <DependentUpon>FormAddEditRelation.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAddEditTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +75,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAddEditAttribute.resx">
       <DependentUpon>FormAddEditAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddEditRelation.resx">
+      <DependentUpon>FormAddEditRelation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAddEditTable.resx">
       <DependentUpon>FormAddEditTable.cs</DependentUpon>

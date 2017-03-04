@@ -32,3 +32,4 @@ C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debu
 C:\Users\Ксения\Documents\Visual Studio 2015\Projects\DBLab\DBLab\obj\Debug\DBLab.FormAddEditAttribute.resources
 E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.FormAddEditAttribute.resources
 \\Mac\Home\DBLab\DBLab\obj\Debug\DBLab.FormAddEditAttribute.resources
+E:\ВШЭ\БД\DBLab\DBLab\obj\Debug\DBLab.FormAddEditRelation.resources
