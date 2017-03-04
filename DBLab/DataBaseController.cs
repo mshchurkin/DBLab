@@ -126,10 +126,25 @@ namespace DBLab
             }
         }
 
+        public static void EditAttr(int _id, string _name, string _type, int _key, int _null)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "update Attribute set Name = N'" + _name + "' where id =" + _id + " ; update EA set type = N'" + _type + "', primary_key = " + _key + ", is_null = " + _null + " where id_Attribute = "+_id+"";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
         public static DataTable FillDgvAttr(int table)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "select atr.Name as Название, ea.type as Тип, ea.primary_key as [Первичный ключ], ea.is_null as Обязательное from Attribute atr, EA ea where atr.id = ea.id_Attribute and ea.id_Entity = " + table.ToString();
+            command.CommandText = "select atr.id, atr.Name as Название, ea.type as Тип, ea.primary_key as [Первичный ключ], ea.is_null as Обязательное from Attribute atr, EA ea where atr.id = ea.id_Attribute and ea.id_Entity = " + table.ToString();
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             if (isConnected == true)

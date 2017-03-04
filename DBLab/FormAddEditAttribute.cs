@@ -20,11 +20,6 @@ namespace DBLab
             InitializeComponent();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void btnAddAttribute_Click(object sender, EventArgs e)
         {
             if (txtName.Text == "" || cmbType.Text == "")
@@ -35,8 +30,24 @@ namespace DBLab
             {
                 DataTable dt = DataBaseController.DisplayTable("Entity where Name=N'" + tableName + "'");
                 tableid = Convert.ToInt32(dt.Rows[0][0]);
+                if (cbxKey.Checked == true)
+                {
+                    foreach (DataGridViewRow r in dgvAttributes.Rows)
+                    {
+                        r.Cells[4].Value = 0;
+                        Editer(r.Index);
+                    }
+                }
                 DataBaseController.AddAttr(txtName.Text, tableid, cmbType.Text, Convert.ToInt32(cbxKey.Checked), Convert.ToInt32(cbxIsNull.Checked));
                 dgvAttributes.DataSource = DataBaseController.FillDgvAttr(tableid);
+                for (int i = 0; i < dgvAttributes.RowCount; i++)
+                {
+                    dgvAttributes.Rows[i].Cells[0].Value = dgvAttributes.Rows[i].Cells[3].Value.ToString();
+                    dgvAttributes.UpdateCellValue(3, i);
+                }
+                dgvAttributes.Columns[0].DisplayIndex = 2;
+                dgvAttributes.Columns[3].Visible = false;
+                dgvAttributes.Columns[1].Visible = false;
             }
         }
 
@@ -45,13 +56,42 @@ namespace DBLab
             DataTable dt = DataBaseController.DisplayTable("Entity where Name=N'" + tableName + "'");
             tableid = Convert.ToInt32(dt.Rows[0][0]);
             dgvAttributes.DataSource = DataBaseController.FillDgvAttr(tableid);
-            for(int i=0; i<dgvAttributes.RowCount; i++)
+            for (int i = 0; i < dgvAttributes.RowCount; i++)
             {
-                dgvAttributes.Rows[i].Cells[0].Value = dgvAttributes.Rows[i].Cells[2].Value.ToString();
-                dgvAttributes.UpdateCellValue(2, i);
+                dgvAttributes.Rows[i].Cells[0].Value = dgvAttributes.Rows[i].Cells[3].Value.ToString();
+                dgvAttributes.UpdateCellValue(3, i);
             }
-            dgvAttributes.Columns[0].DisplayIndex = 1;
-            dgvAttributes.Columns[2].Visible = false;
+            dgvAttributes.Columns[0].DisplayIndex = 2;
+            dgvAttributes.Columns[3].Visible = false;
+            dgvAttributes.Columns[1].Visible = false;
+        }
+
+        private void dgvAttributes_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int row = dgvAttributes.CurrentCell.RowIndex;
+            if (dgvAttributes.CurrentCell.ColumnIndex == 4)
+            {
+                foreach(DataGridViewRow r in dgvAttributes.Rows)
+                {
+                    if (r.Index != row)
+                    {
+                        r.Cells[4].Value = 0;
+                        Editer(r.Index);
+                    }
+                }
+            }
+            Editer(row);
+        }
+
+        private void Editer(int row)
+        {
+            int idValue = Convert.ToInt32(dgvAttributes.Rows[row].Cells[1].Value);
+            string nameValue = dgvAttributes.Rows[row].Cells[2].Value.ToString();
+            dgvAttributes.Rows[row].Cells[3].Value = dgvAttributes.Rows[row].Cells[0].Value.ToString();
+            string typeValue = dgvAttributes.Rows[row].Cells[3].Value.ToString();
+            int keyValue = Convert.ToInt32(dgvAttributes.Rows[row].Cells[4].Value);
+            int nullValue = Convert.ToInt32(dgvAttributes.Rows[row].Cells[5].Value);
+            DataBaseController.EditAttr(idValue, nameValue, typeValue, keyValue, nullValue);
         }
     }
 }
