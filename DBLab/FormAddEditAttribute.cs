@@ -96,6 +96,8 @@ namespace DBLab
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (dgvAttributes.CurrentRow != null)
+                Editer(dgvAttributes.CurrentCell.RowIndex);
             this.Close();
         }
     }
