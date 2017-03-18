@@ -121,6 +121,49 @@ namespace DBLab
             addRelation.DialogResult = DialogResult.Cancel;
             addRelation.ShowDialog();
         }
+
+        private void lvTables_DoubleClick(object sender, EventArgs e)
+        {
+            DataTable dt_table_name = DataBaseController.DisplayTable("Entity where Name = N'" + lvTables.SelectedItems[0].Text+"'");
+            DataTable dt_atr = DataBaseController.GetAttrForData(dt_table_name.Rows[0][0].ToString());
+            DataTable dt_data = new DataTable();
+            for ( int i=0; i<dt_atr.Rows.Count; i++)
+            {
+                dt_data.Columns.Add();
+                DataTable dt_data_col2 = null;
+                switch (dt_atr.Rows[i][2].ToString())
+                {
+                    case "string":
+                        dt_data_col2 = DataBaseController.GetValueAttr(1, dt_table_name.Rows[0][0].ToString(), dt_atr.Rows[i][0].ToString());
+                        break;
+                    case "real":
+                        dt_data_col2 = DataBaseController.GetValueAttr(2, dt_table_name.Rows[0][0].ToString(), dt_atr.Rows[i][0].ToString());
+                        break;
+                    case "integer":
+                        dt_data_col2 = DataBaseController.GetValueAttr(3, dt_table_name.Rows[0][0].ToString(), dt_atr.Rows[i][0].ToString());
+                        break;
+                    case "date":
+                        dt_data_col2 = DataBaseController.GetValueAttr(4, dt_table_name.Rows[0][0].ToString(), dt_atr.Rows[i][0].ToString());
+                        break;
+                }
+                for (int j = 0; j < dt_data_col2.Rows.Count; j++)
+                {  
+                    try
+                    {
+                        dt_data.Rows[j][i] = dt_data_col2.Rows[j][0];
+                    }
+                    catch(Exception)
+                    {
+                        dt_data.Rows.Add();
+                        dt_data.Rows[j][i] = dt_data_col2.Rows[j][0];
+                    }
+                }
+                dt_data.Columns[i].Caption = dt_atr.Rows[i][1].ToString();
+                dt_data.Columns[i].ColumnName = dt_atr.Rows[i][1].ToString();
+            }
+            dgv.DataSource = dt_data;
+            //dgv.DataSource = dt_atr;
+        }
     }
 }
     

@@ -37,9 +37,9 @@
             this.deleteTable = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.addAttribute = new System.Windows.Forms.ToolStripButton();
-            this.dgv = new System.Windows.Forms.DataGridView();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.addRelation = new System.Windows.Forms.ToolStripButton();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -56,6 +56,7 @@
             this.lvTables.Size = new System.Drawing.Size(171, 413);
             this.lvTables.TabIndex = 0;
             this.lvTables.UseCompatibleStateImageBehavior = false;
+            this.lvTables.DoubleClick += new System.EventHandler(this.lvTables_DoubleClick);
             // 
             // tsMain
             // 
@@ -121,15 +122,6 @@
             this.addAttribute.Size = new System.Drawing.Size(23, 22);
             this.addAttribute.Click += new System.EventHandler(this.addAttribute_Click);
             // 
-            // dgv
-            // 
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.Location = new System.Drawing.Point(171, 25);
-            this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(484, 413);
-            this.dgv.TabIndex = 2;
-            // 
             // toolStripLabel3
             // 
             this.toolStripLabel3.Name = "toolStripLabel3";
@@ -144,6 +136,15 @@
             this.addRelation.Name = "addRelation";
             this.addRelation.Size = new System.Drawing.Size(23, 22);
             this.addRelation.Click += new System.EventHandler(this.addRelation_Click);
+            // 
+            // dgv
+            // 
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.Location = new System.Drawing.Point(171, 25);
+            this.dgv.Name = "dgv";
+            this.dgv.Size = new System.Drawing.Size(484, 413);
+            this.dgv.TabIndex = 2;
             // 
             // FormMain
             // 

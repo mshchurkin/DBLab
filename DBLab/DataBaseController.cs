@@ -12,8 +12,8 @@ namespace DBLab
     class DataBaseController
     {
         private static String connectionString =
-                //$@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
-                /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+                $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
+                /* Мишино:*///$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
         /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
         public static SqlConnection sqlConnection = new SqlConnection(connectionString);
         public static bool isConnected = false;
@@ -183,6 +183,46 @@ namespace DBLab
             {
                 MessageBox.Show("Не удалось добавить связь.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public static DataTable GetAttrForData(string table)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select a.id, a.Name, b.type, b.primary_key from (select * from metaLabDB.dbo.Attribute) a, (select id_Attribute, type, primary_key from metaLabDB.dbo.EA where id_Entity = " + table + ") b where a.id=b.id_Attribute";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
+        public static DataTable GetValueAttr(int c, string tablename, string atrname)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            switch (c)
+            {
+                case 1:
+                    command.CommandText = "select value from metaLabDB.dbo.String where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+                case 2:
+                    command.CommandText = "select value from metaLabDB.dbo.Float where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+                case 3:
+                    command.CommandText = "select value from metaLabDB.dbo.Integer where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+                case 4:
+                    command.CommandText = "select value from metaLabDB.dbo.Date where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+            }
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
         }
     }
 }
