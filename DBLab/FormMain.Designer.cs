@@ -146,6 +146,7 @@
             this.dgv.Name = "dgv";
             this.dgv.Size = new System.Drawing.Size(484, 413);
             this.dgv.TabIndex = 2;
+            this.dgv.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_DataError);
             // 
             // FormMain
             // 
