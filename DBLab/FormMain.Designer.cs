@@ -38,6 +38,8 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.addAttribute = new System.Windows.Forms.ToolStripButton();
             this.dgv = new System.Windows.Forms.DataGridView();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.addRelation = new System.Windows.Forms.ToolStripButton();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +65,9 @@
             this.editTable,
             this.deleteTable,
             this.toolStripLabel2,
-            this.addAttribute});
+            this.addAttribute,
+            this.toolStripLabel3,
+            this.addRelation});
             this.tsMain.Location = new System.Drawing.Point(0, 0);
             this.tsMain.Name = "tsMain";
             this.tsMain.Size = new System.Drawing.Size(655, 25);
@@ -126,6 +130,21 @@
             this.dgv.Size = new System.Drawing.Size(484, 413);
             this.dgv.TabIndex = 2;
             // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(112, 22);
+            this.toolStripLabel3.Text = "Работа со связями:";
+            // 
+            // addRelation
+            // 
+            this.addRelation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addRelation.Image = ((System.Drawing.Image)(resources.GetObject("addRelation.Image")));
+            this.addRelation.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addRelation.Name = "addRelation";
+            this.addRelation.Size = new System.Drawing.Size(23, 22);
+            this.addRelation.Click += new System.EventHandler(this.addRelation_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -157,6 +176,8 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripButton addAttribute;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripButton addRelation;
     }
 }
 

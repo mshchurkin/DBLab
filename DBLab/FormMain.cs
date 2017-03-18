@@ -114,6 +114,13 @@ namespace DBLab
                 this.FormMain_Load(sender, e);
             }
         }
+
+        private void addRelation_Click(object sender, EventArgs e)
+        {
+            FormAddEditRelation addRelation = new FormAddEditRelation();
+            addRelation.DialogResult = DialogResult.Cancel;
+            addRelation.ShowDialog();
+        }
     }
 }
     
