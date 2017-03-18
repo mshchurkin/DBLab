@@ -12,9 +12,9 @@ namespace DBLab
     class DataBaseController
     {
         private static String connectionString =
-                 $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
-                /* Мишино:*///$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
-                /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
+                //$@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
+                /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+        /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
         public static SqlConnection sqlConnection = new SqlConnection(connectionString);
         public static bool isConnected = false;
         public static void Coneect()
@@ -36,7 +36,7 @@ namespace DBLab
         }
         public static IEnumerable<string> listFiller()
         {
-            if (isConnected ==true)
+            if (isConnected == true)
             {
                 SqlCommand command = sqlConnection.CreateCommand();
                 command.CommandText = "SELECT * FROM dbo.Entity";
@@ -49,10 +49,10 @@ namespace DBLab
         }
         public static DataTable DisplayTable(string tableName)
         {
-                SqlCommand command = sqlConnection.CreateCommand();
-                command.CommandText = "SELECT * FROM " + tableName;
-                DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "SELECT * FROM " + tableName;
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
             if (isConnected == true)
             {
                 adapter.Fill(dt);
@@ -79,9 +79,9 @@ namespace DBLab
         {
             SqlCommand command = sqlConnection.CreateCommand();
 
-            DataTable dt = DisplayTable("dbo.Entity WHERE Name=N'"+_oldname+"'");
+            DataTable dt = DisplayTable("dbo.Entity WHERE Name=N'" + _oldname + "'");
 
-            command.CommandText = "if not exists(select * from Entity where Name = N'" + _name + "') begin update Entity SET Name = N'" + _name + "' WHERE ID = "+dt.Rows[0][0]+"; select distinct 1, id from Entity where Name=N'" + _name + "'; end else select distinct 0 from Entity; ";
+            command.CommandText = "if not exists(select * from Entity where Name = N'" + _name + "') begin update Entity SET Name = N'" + _name + "' WHERE ID = " + dt.Rows[0][0] + "; select distinct 1, id from Entity where Name=N'" + _name + "'; end else select distinct 0 from Entity; ";
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             if (isConnected == true)
             {
@@ -95,15 +95,15 @@ namespace DBLab
         public static void AddAttr(string _name, int _table, string _type, int _key, int _null)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "if not exists(select * from Attribute where Name =N'"+ _name + "') begin insert into Attribute (Name) values(N'"+ _name + "'); select distinct 1, id from Attribute where Name=N'"+ _name + "'; end else select distinct 0 from Attribute; ";
-            
+            command.CommandText = "if not exists(select * from Attribute where Name =N'" + _name + "') begin insert into Attribute (Name) values(N'" + _name + "'); select distinct 1, id from Attribute where Name=N'" + _name + "'; end else select distinct 0 from Attribute; ";
+
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
 
             if (isConnected == true)
             {
                 adapter.Fill(dt);//command.ExecuteNonQuery();
-                if (int.Parse(dt.Rows[0][0].ToString())==1)
+                if (int.Parse(dt.Rows[0][0].ToString()) == 1)
                 {
                     command.CommandText = "insert into EA (id_Entity,id_Attribute,type,primary_key,is_null) values(@table,@attr,@type,@key,@null)";
 
@@ -120,7 +120,7 @@ namespace DBLab
                 }
                 else
                 {
-                    MessageBox.Show("Атрибут с таким именем уже существует.","Ошибка",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Атрибут с таким именем уже существует.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
             }
@@ -133,7 +133,7 @@ namespace DBLab
 
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
-            command.CommandText = "update Attribute set Name = N'" + _name + "' where id =" + _id + " ; update EA set type = N'" + _type + "', primary_key = " + _key + ", is_null = " + _null + " where id_Attribute = "+_id+"";
+            command.CommandText = "update Attribute set Name = N'" + _name + "' where id =" + _id + " ; update EA set type = N'" + _type + "', primary_key = " + _key + ", is_null = " + _null + " where id_Attribute = " + _id + "";
 
             if (isConnected == true)
             {
@@ -152,6 +152,37 @@ namespace DBLab
                 adapter.Fill(dt);
             }
             return dt;
+        }
+
+        public static DataTable FillDgvRelation()
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select id_Relation as ID, (select Name from Entity where id=id_EntityS) as [Таблица-источник], id_EntityT as [Таблица-приемник], id_Attribute as [Атрибут-приемник], binder as [Тип связи] from Relation ";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
+        public static void AddRelation( string _id_en_s, string _id_en_t, string _id_at, string _binder)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "insert into Relation (id_EntityS, id_EntityT, id_Attribute, binder) values("+_id_en_s+", "+_id_en_t+", "+_id_at+", N'"+_binder+"'); ";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось добавить связь.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -33,7 +33,6 @@
             this.Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cmsDeleteRow = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiDeleteRow = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddRelations = new System.Windows.Forms.Button();
             this.btnAddAttribute = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -93,15 +92,6 @@
             this.tsmiDeleteRow.Name = "tsmiDeleteRow";
             this.tsmiDeleteRow.Size = new System.Drawing.Size(158, 22);
             this.tsmiDeleteRow.Text = "Удалить строку";
-            // 
-            // btnAddRelations
-            // 
-            this.btnAddRelations.Location = new System.Drawing.Point(157, 228);
-            this.btnAddRelations.Name = "btnAddRelations";
-            this.btnAddRelations.Size = new System.Drawing.Size(134, 23);
-            this.btnAddRelations.TabIndex = 1;
-            this.btnAddRelations.Text = "Работа со связями";
-            this.btnAddRelations.UseVisualStyleBackColor = true;
             // 
             // btnAddAttribute
             // 
@@ -196,6 +186,7 @@
             this.btnOK.TabIndex = 3;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // FormAddEditAttribute
             // 
@@ -212,7 +203,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnAddAttribute);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnAddRelations);
             this.Controls.Add(this.dgvAttributes);
             this.Name = "FormAddEditAttribute";
             this.Text = "Атрибуты таблицы";
@@ -227,7 +217,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvAttributes;
-        private System.Windows.Forms.Button btnAddRelations;
         private System.Windows.Forms.ContextMenuStrip cmsDeleteRow;
         private System.Windows.Forms.ToolStripMenuItem tsmiDeleteRow;
         private System.Windows.Forms.Button btnAddAttribute;

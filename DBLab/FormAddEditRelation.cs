@@ -12,6 +12,8 @@ namespace DBLab
 {
     public partial class FormAddEditRelation : Form
     {
+        public string tableName = "";
+        private int tableid;
         public FormAddEditRelation()
         {
             InitializeComponent();
@@ -45,6 +47,9 @@ namespace DBLab
             cbxPrimaryTable.DataSource = dt;
             cbxPrimaryTable.DisplayMember = "Name";
             ChangePrimaryTable();
+
+            dt = DataBaseController.FillDgvRelation();
+            dataGridView1.DataSource = dt;
         }
 
         private void cbxPrimaryTable_SelectedValueChanged(object sender, EventArgs e)
@@ -55,6 +60,20 @@ namespace DBLab
         private void cbxOutterTable_SelectedValueChanged(object sender, EventArgs e)
         {
             ChangeOutterTable();
+        }
+
+        private void btnAddRelation_Click(object sender, EventArgs e)
+        {
+            if (cbxPrimaryAttr.Text == "" || cbxPrimaryTable.Text == "" || cbxOutterAttr.Text == "" || cbxOutterTable.Text == ""||txtRelationName.Text=="")
+            {
+                MessageBox.Show("Не введены все параметры", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                DataBaseController.AddRelation((cbxPrimaryTable.SelectedItem as DataRowView)[0].ToString(), (cbxOutterTable.SelectedItem as DataRowView)[0].ToString(), (cbxOutterAttr.SelectedItem as DataRowView)[0].ToString(),txtRelationName.Text.ToString());
+                DataTable  dt = DataBaseController.FillDgvRelation();
+                dataGridView1.DataSource = dt;
+            }
         }
     }
 }

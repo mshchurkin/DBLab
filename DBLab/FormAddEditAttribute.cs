@@ -93,5 +93,10 @@ namespace DBLab
             int nullValue = Convert.ToInt32(dgvAttributes.Rows[row].Cells[5].Value);
             DataBaseController.EditAttr(idValue, nameValue, typeValue, keyValue, nullValue);
         }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
