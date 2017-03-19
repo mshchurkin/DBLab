@@ -50,6 +50,8 @@ namespace DBLab
 
             dt = DataBaseController.FillDgvRelation();
             dataGridView1.DataSource = dt;
+
+            dataGridView1.Columns[0].Visible = false;
         }
 
         private void cbxPrimaryTable_SelectedValueChanged(object sender, EventArgs e)
@@ -74,6 +76,11 @@ namespace DBLab
                 DataTable  dt = DataBaseController.FillDgvRelation();
                 dataGridView1.DataSource = dt;
             }
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
