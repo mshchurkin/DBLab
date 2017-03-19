@@ -13,8 +13,8 @@ namespace DBLab
     {
         private static String connectionString =
                 //$@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
-                /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
-        /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
+                                                                                                       /* Мишино:*/@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+                                                                                                                   /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
         public static SqlConnection sqlConnection = new SqlConnection(connectionString);
         public static bool isConnected = false;
         public static void Coneect()
@@ -157,7 +157,7 @@ namespace DBLab
         public static DataTable FillDgvRelation()
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "select id_Relation as ID, (select Name from Entity where id=id_EntityS) as [Таблица-источник], id_EntityT as [Таблица-приемник], id_Attribute as [Атрибут-приемник], binder as [Тип связи] from Relation ";
+            command.CommandText = "select id_Relation as ID, (select Name from Entity where id=id_EntityS) as [Таблица-источник], (select Name from Entity where id=id_EntityT) as [Таблица-приемник], (select Name from Attribute where id=id_Attribute) as [Атрибут-приемник], binder as [Имя связи] from Relation ";
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             if (isConnected == true)
@@ -167,10 +167,10 @@ namespace DBLab
             return dt;
         }
 
-        public static void AddRelation( string _id_en_s, string _id_en_t, string _id_at, string _binder)
+        public static void AddRelation(string _id_en_s, string _id_en_t, string _id_at, string _binder)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "insert into Relation (id_EntityS, id_EntityT, id_Attribute, binder) values("+_id_en_s+", "+_id_en_t+", "+_id_at+", N'"+_binder+"'); ";
+            command.CommandText = "insert into Relation (id_EntityS, id_EntityT, id_Attribute, binder) values(" + _id_en_s + ", " + _id_en_t + ", " + _id_at + ", N'" + _binder + "'); ";
 
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -183,6 +183,72 @@ namespace DBLab
             {
                 MessageBox.Show("Не удалось добавить связь.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public static DataTable GetAttrForData(string table)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select a.id, a.Name, b.type, b.primary_key from (select * from metaLabDB.dbo.Attribute) a, (select id_Attribute, type, primary_key from metaLabDB.dbo.EA where id_Entity = " + table + ") b where a.id=b.id_Attribute";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
+        public static DataTable GetValueAttr(int c, string tablename, string atrname)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            switch (c)
+            {
+                case 1:
+                    command.CommandText = "select value from metaLabDB.dbo.String where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+                case 2:
+                    command.CommandText = "select value from metaLabDB.dbo.Float where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+                case 3:
+                    command.CommandText = "select value from metaLabDB.dbo.Integer where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+                case 4:
+                    command.CommandText = "select value from metaLabDB.dbo.Date where id_Attribute = " + atrname + " and id_InstanceEntity in (select id_InstanceEntity from metaLabDB.dbo.InstanceEntity where id_Entity = " + tablename + ")";
+                    break;
+            }
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
+        public static DataTable CheckAttr(string id)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select r.id_EntityS, a.id_Attribute from Relation r, (select id_Entity, id_Attribute from EA where primary_key=1) a where r.id_EntityS=a.id_Entity and r.id_Attribute = " + id;
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
+        public static DataTable GetInstance(string id)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select id_InstanceEntity from InstanceEntity where id_Entity = " + id;
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
         }
     }
 }
