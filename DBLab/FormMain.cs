@@ -206,6 +206,12 @@ namespace DBLab
         {
 
         }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            Queries frmQuery = new Queries();
+            frmQuery.ShowDialog();
+        }
     }
 }
     
