@@ -41,6 +41,7 @@
             this.cbxOutterAttr = new System.Windows.Forms.ComboBox();
             this.btnAddRelation = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.DeleteRealtion = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,6 +110,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(330, 150);
             this.dataGridView1.TabIndex = 6;
+            this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             // 
             // label4
             // 
@@ -148,7 +150,7 @@
             // 
             // btnAddRelation
             // 
-            this.btnAddRelation.Location = new System.Drawing.Point(122, 139);
+            this.btnAddRelation.Location = new System.Drawing.Point(30, 139);
             this.btnAddRelation.Name = "btnAddRelation";
             this.btnAddRelation.Size = new System.Drawing.Size(106, 23);
             this.btnAddRelation.TabIndex = 11;
@@ -166,11 +168,23 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // DeleteRealtion
+            // 
+            this.DeleteRealtion.Enabled = false;
+            this.DeleteRealtion.Location = new System.Drawing.Point(212, 139);
+            this.DeleteRealtion.Name = "DeleteRealtion";
+            this.DeleteRealtion.Size = new System.Drawing.Size(106, 23);
+            this.DeleteRealtion.TabIndex = 13;
+            this.DeleteRealtion.Text = "Удалить связь";
+            this.DeleteRealtion.UseVisualStyleBackColor = true;
+            this.DeleteRealtion.Click += new System.EventHandler(this.DeleteRealtion_Click);
+            // 
             // FormAddEditRelation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 354);
+            this.Controls.Add(this.DeleteRealtion);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnAddRelation);
             this.Controls.Add(this.cbxOutterAttr);
@@ -208,5 +222,6 @@
         private System.Windows.Forms.ComboBox cbxOutterAttr;
         private System.Windows.Forms.Button btnAddRelation;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button DeleteRealtion;
     }
 }

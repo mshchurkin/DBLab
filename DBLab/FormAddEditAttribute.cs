@@ -100,5 +100,30 @@ namespace DBLab
                 Editer(dgvAttributes.CurrentCell.RowIndex);
             this.Close();
         }
+
+        private void dgvAttributes_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DelAttr.Enabled = true;
+        }
+
+        private void DelAttr_Click(object sender, EventArgs e)
+        {
+            string nameValue = dgvAttributes.CurrentRow.Cells[2].Value.ToString();
+            DataBaseController.dropTableByAttr(nameValue);
+            DataBaseController.DelRelationByAttr(nameValue);
+            DataBaseController.DelAttrByAttr(nameValue);
+
+            DataTable dt = DataBaseController.DisplayTable("Entity where Name=N'" + tableName + "'");
+            tableid = Convert.ToInt32(dt.Rows[0][0]);
+            dgvAttributes.DataSource = DataBaseController.FillDgvAttr(tableid);
+            for (int i = 0; i < dgvAttributes.RowCount; i++)
+            {
+                dgvAttributes.Rows[i].Cells[0].Value = dgvAttributes.Rows[i].Cells[3].Value.ToString();
+                dgvAttributes.UpdateCellValue(3, i);
+            }
+            dgvAttributes.Columns[0].DisplayIndex = 2;
+            dgvAttributes.Columns[3].Visible = false;
+            dgvAttributes.Columns[1].Visible = false;
+        }
     }
 }

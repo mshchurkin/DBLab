@@ -43,6 +43,7 @@
             this.cbxKey = new System.Windows.Forms.CheckBox();
             this.cbxIsNull = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
+            this.DelAttr = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttributes)).BeginInit();
             this.cmsDeleteRow.SuspendLayout();
             this.SuspendLayout();
@@ -67,6 +68,7 @@
             this.dgvAttributes.Size = new System.Drawing.Size(448, 162);
             this.dgvAttributes.TabIndex = 0;
             this.dgvAttributes.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttributes_CellEndEdit);
+            this.dgvAttributes.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttributes_RowEnter);
             // 
             // Type
             // 
@@ -188,11 +190,23 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // DelAttr
+            // 
+            this.DelAttr.Enabled = false;
+            this.DelAttr.Location = new System.Drawing.Point(152, 228);
+            this.DelAttr.Name = "DelAttr";
+            this.DelAttr.Size = new System.Drawing.Size(144, 23);
+            this.DelAttr.TabIndex = 13;
+            this.DelAttr.Text = "Удалить атрибут";
+            this.DelAttr.UseVisualStyleBackColor = true;
+            this.DelAttr.Click += new System.EventHandler(this.DelAttr_Click);
+            // 
             // FormAddEditAttribute
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(448, 261);
+            this.Controls.Add(this.DelAttr);
             this.Controls.Add(this.cbxIsNull);
             this.Controls.Add(this.cbxKey);
             this.Controls.Add(this.cmbType);
@@ -230,5 +244,6 @@
         private System.Windows.Forms.CheckBox cbxIsNull;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.DataGridViewComboBoxColumn Type;
+        private System.Windows.Forms.Button DelAttr;
     }
 }

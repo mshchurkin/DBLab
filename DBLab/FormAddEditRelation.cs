@@ -82,5 +82,24 @@ namespace DBLab
         {
             this.Close();
         }
+
+        private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DeleteRealtion.Enabled = true;
+        }
+
+        private void DeleteRealtion_Click(object sender, EventArgs e)
+        {
+            DataBaseController.DelRelationByName(dataGridView1.CurrentRow.Cells["Имя связи"].Value.ToString());
+            DataTable dt = DataBaseController.DisplayTable("Entity");
+            cbxPrimaryTable.DataSource = dt;
+            cbxPrimaryTable.DisplayMember = "Name";
+            ChangePrimaryTable();
+
+            dt = DataBaseController.FillDgvRelation();
+            dataGridView1.DataSource = dt;
+
+            dataGridView1.Columns[0].Visible = false;
+        }
     }
 }

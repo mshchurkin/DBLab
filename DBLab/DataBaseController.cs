@@ -107,6 +107,40 @@ namespace DBLab
                 command.ExecuteNonQuery();
             }
         }
+        public static void dropTableByAttr(string _attrName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from String where id_Attribute in (select id from Attribute where Name = N'"+_attrName+"') ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Integer where id_Attribute in (select id from Attribute where Name = N'" + _attrName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Date where id_Attribute in (select id from Attribute where Name = N'" + _attrName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Float where id_Attribute in (select id from Attribute where Name = N'" + _attrName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+        }
 
         public static void dropTable(string _tableName)
         {
@@ -200,7 +234,25 @@ namespace DBLab
             }
         }
 
-        public static void DelAttr(string _tableName)
+        public static void DelAttrByAttr(string _attrName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from EA where id_Attribute in (select id from Attribute where Name=N'" + _attrName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Attribute where Name =N'" + _attrName + "'";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+        public static void DelAttrByEntity(string _tableName)
         {
             List<int> attrIds = new List<int>();
             SqlCommand command = sqlConnection.CreateCommand();
@@ -278,14 +330,62 @@ namespace DBLab
             }
         }
 
-        public static void DelRelation(string _tableName)
+        public static void DelRelationByAttr(string _attrName)
+        {
+            List<int> entIds = new List<int>();
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select id_Entity from EA where primary_key=1 and id_Attribute in (select id from Attribute where Name=N'" + _attrName + "')";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    entIds.Add(Convert.ToInt32(reader[0].ToString()));
+                }
+                reader.Close();
+            }
+            command.CommandText = "";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from Relation where id_Attribute in (select id from Attribute where Name=N'" + _attrName + "') ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            foreach (int i in entIds)
+            {
+                command.CommandText = "delete from Relation where id_EntityS =N'" + i + "'";
+
+                if (isConnected == true)
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public static void DelRelationByEntity(string _tableName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from Relation where id_EntityS in (select id from Entity where Name=N'" + _tableName + "') or id_EntityT in (select id from Entity where Name=N'" + _tableName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void DelRelationByName(string _relName)
         {
             SqlCommand command = sqlConnection.CreateCommand();
             command.CommandText = "";
 
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
-            command.CommandText = "delete from Relation where id_EntityS in (select id from Entity where Name=N'" + _tableName + "') or id_EntityT in (select id from Entity where Name=N'" + _tableName + "')";
+            command.CommandText = "delete from Relation where binder=N'"+_relName+"'";
 
             if (isConnected == true)
             {
@@ -412,7 +512,7 @@ namespace DBLab
             return attrType;
         }
 
-        public static void addData(string attrColName, string attrColValue, string entity_name,string id_InstanceEntity)
+        public static void addData(string attrColName, string attrColValue, string entity_name, string id_InstanceEntity)
         {
             String attrType = getAttrtype(attrColName);
             switch (attrType)
@@ -421,17 +521,17 @@ namespace DBLab
                     {
                         String id_Entity = getIdByName(entity_name);
                         SqlCommand command = sqlConnection.CreateCommand();
-                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'"+id_InstanceEntity+@"')
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
                                                  update String
                                                  set value = N'" + attrColValue + @"'
-                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName+ @"')
-                                                 and id_InstanceEntity =N'"+id_InstanceEntity+ @"' ;
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
+                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
                                               else
                                                 insert into InstanceEntity(id_Entity)
                                                 values(" + id_Entity + @");
                                                 insert into String(id_Attribute, id_InstanceEntity, value)
-                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = "+id_Entity+@"), N'"+attrColValue+@"');
-                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity ="+id_Entity+"; ";
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = " + id_Entity + @"), N'" + attrColValue + @"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity =" + id_Entity + "; ";
 
                         DataTable dt = new DataTable();
                         SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -442,10 +542,10 @@ namespace DBLab
                         }
                         else
                         {
-                            MessageBox.Show("Ошибка", "Не удалось добавить данные.",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                break;
+                    break;
                 case "integer":
                     {
                         String id_Entity = getIdByName(entity_name);
@@ -533,6 +633,8 @@ namespace DBLab
                         }
                     }
                     break;
+            }
+        }
 
         public static DataTable FillDgvQuery()
         {
