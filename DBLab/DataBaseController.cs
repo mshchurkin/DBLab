@@ -12,8 +12,8 @@ namespace DBLab
     class DataBaseController
     {
         private static String connectionString =
-                //$@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
-                                                                                                       /* Мишино:*/@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+               // $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
+                                                                                                       /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
                                                                                                                    /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
         public static SqlConnection sqlConnection = new SqlConnection(connectionString);
         public static bool isConnected = false;
@@ -249,6 +249,95 @@ namespace DBLab
                 adapter.Fill(dt);
             }
             return dt;
+        }
+
+        public static string getPrimaryKeyAttr(string table_Name)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            String id_Entity = getIdByName(table_Name);
+            command.CommandText = "select Name from Attribute where id in (select id_Attribute from EA where primary_key = 1 and id_Entity=N'"+id_Entity+"')";
+            String attrName = "";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    attrName = reader[0].ToString();
+               }
+                reader.Close();
+            }
+            return attrName;
+        }
+
+        public static string getIdByName(string name)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select id from Entity where Name =N'" + name + "'";
+            String id = "";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    id = reader[0].ToString();
+                }
+                reader.Close();
+            }
+            return id;
+        }
+
+        public static string getAttrtype(string attrName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select type from EA where id_Attribute in (select id from Attribute where Name = N'"+attrName+"'))";
+            String attrType = "";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    attrName = reader[0].ToString();
+                }
+                reader.Close();
+            }
+            return attrType;
+        }
+
+        public static void addData(string attrColName, string attrColValue, string entity_name,string id_InstanceEntity)
+        {
+            String attrType = getAttrtype(attrColName);
+            switch (attrType)
+            {
+                case "String":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'"+id_InstanceEntity+@"')
+                                                 update String
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName+ @"')
+                                                 and id_InstanceEntity = 1;
+                                              else
+                                                insert into InstanceEntity(N'"+id_Entity+@"')
+                                                values(1);
+                                                insert into String(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = N'"+id_Entity+@"'), 'value');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity = N'"+id_Entity+"'; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Не удалось добавить данные.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                break;
+            }
         }
     }
 }

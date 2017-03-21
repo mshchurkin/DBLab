@@ -128,11 +128,11 @@ namespace DBLab
             dgv.Rows.Clear();
             dgv.Columns.Clear();
 
-            DataTable dt_table_name = DataBaseController.DisplayTable("Entity where Name = N'" + lvTables.SelectedItems[0].Text+"'");
+            DataTable dt_table_name = DataBaseController.DisplayTable("Entity where Name = N'" + lvTables.SelectedItems[0].Text + "'");
             DataTable dt_atr = DataBaseController.GetAttrForData(dt_table_name.Rows[0][0].ToString());
             DataTable dt_data = DataBaseController.GetInstance(dt_table_name.Rows[0][0].ToString());
 
-            for ( int i=0; i<dt_atr.Rows.Count; i++)
+            for (int i = 0; i < dt_atr.Rows.Count; i++)
             {
                 dt_data.Columns.Add();
                 DataTable dt_data_col2 = null;
@@ -152,12 +152,12 @@ namespace DBLab
                         break;
                 }
                 for (int j = 0; j < dt_data_col2.Rows.Count; j++)
-                {  
+                {
                     try
                     {
                         dt_data.Rows[j][i + 1] = dt_data_col2.Rows[j][0];
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         dt_data.Rows.Add();
                         dt_data.Rows[j][i + 1] = dt_data_col2.Rows[j][0];
@@ -195,16 +195,39 @@ namespace DBLab
                     (dgv.Columns[dgv.Columns.Count - 1] as DataGridViewComboBoxColumn).ValueMember = "value";
                     for (int j = 0; j < dgv.Rows.Count; j++)
                         dgv[dgv.Columns.Count - 1, j].Value = dgv[i + 1, j].Value;
-                    dgv.Columns[i + 1].Visible = false;
+                    dgv.Columns[i + 1].Visible = true;
                 }
             }
 
-            dgv.Columns[0].Visible = false;
+            dgv.Columns[0].Visible = true;
         }
 
         private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
 
+        }
+
+        private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            String columnPrimaryKey = DataBaseController.getPrimaryKeyAttr(lvTables.SelectedItems[0].Text);
+            int row = dgv.CurrentCell.RowIndex;
+            bool ifPKValueNotExists = true;
+            String newPKValue = dgv.Rows[row].Cells[columnPrimaryKey].Value.ToString();
+            for (int i = 0; i < dgv.RowCount - 1; i++)
+                if (i != row)
+                    if (dgv.Rows[i].Cells[columnPrimaryKey].Value.ToString() == newPKValue)
+                        ifPKValueNotExists = false;
+            if (ifPKValueNotExists == true)
+            {
+
+                for (int i = 0; i < dgv.RowCount - 1; i++)
+                    for (int j = 0; j < dgv.ColumnCount; j++)
+                    {
+                        DataBaseController.addData(dgv.Rows[i].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[i].Cells[j].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[i].Cells[0]);
+                    }
+            }
+            else
+                MessageBox.Show("Ошибка", "Данный первичный ключ уже существует");
         }
     }
 }
