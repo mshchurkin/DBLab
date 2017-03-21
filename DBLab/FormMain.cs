@@ -221,9 +221,9 @@ namespace DBLab
             {
 
                 for (int i = 0; i < dgv.RowCount - 1; i++)
-                    for (int j = 0; j < dgv.ColumnCount; j++)
+                    for (int j = 1; j < dgv.ColumnCount; j++)
                     {
-                        DataBaseController.addData(dgv.Rows[i].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[i].Cells[j].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[i].Cells[0]);
+                        DataBaseController.addData(dgv.Rows[i].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[i].Cells[j].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[i].Cells[0].Value.ToString());
                     }
             }
             else

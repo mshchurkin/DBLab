@@ -289,14 +289,14 @@ namespace DBLab
         public static string getAttrtype(string attrName)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "select type from EA where id_Attribute in (select id from Attribute where Name = N'"+attrName+"'))";
+            command.CommandText = "select type from EA where id_Attribute in (select id from Attribute where Name = N'"+attrName+"')";
             String attrType = "";
             if (isConnected == true)
             {
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    attrName = reader[0].ToString();
+                    attrType = reader[0].ToString();
                 }
                 reader.Close();
             }
@@ -308,7 +308,7 @@ namespace DBLab
             String attrType = getAttrtype(attrColName);
             switch (attrType)
             {
-                case "String":
+                case "string":
                     {
                         String id_Entity = getIdByName(entity_name);
                         SqlCommand command = sqlConnection.CreateCommand();
@@ -316,13 +316,13 @@ namespace DBLab
                                                  update String
                                                  set value = N'" + attrColValue + @"'
                                                  where id_Attribute in (select id from Attribute where Name = N'" + attrColName+ @"')
-                                                 and id_InstanceEntity = 1;
+                                                 and id_InstanceEntity =N'"+id_InstanceEntity+ @"' ;
                                               else
-                                                insert into InstanceEntity(N'"+id_Entity+@"')
-                                                values(1);
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
                                                 insert into String(id_Attribute, id_InstanceEntity, value)
-                                                values((select id from Attribute where Name = N'" + attrColName + @"), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = N'"+id_Entity+@"'), 'value');
-                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity = N'"+id_Entity+"'; ";
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = "+id_Entity+@"), N'"+attrColValue+@"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity ="+id_Entity+"; ";
 
                         DataTable dt = new DataTable();
                         SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -333,10 +333,97 @@ namespace DBLab
                         }
                         else
                         {
-                            MessageBox.Show("Не удалось добавить данные.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.",MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 break;
+                case "integer":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                                                 update Integer
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
+                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                              else
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
+                                                insert into Integer(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = " + id_Entity + @"), N'" + attrColValue + @"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity =" + id_Entity + "; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "Date":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                                                 update Date
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
+                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                              else
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
+                                                insert into Date(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = " + id_Entity + @"), N'" + attrColValue + @"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity =" + id_Entity + "; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "real":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                                                 update Real
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
+                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                              else
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
+                                                insert into Real(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = " + id_Entity + @"), N'" + attrColValue + @"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity =" + id_Entity + "; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
             }
         }
     }
