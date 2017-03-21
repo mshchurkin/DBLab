@@ -12,8 +12,10 @@ namespace DBLab
     class DataBaseController
     {
         private static String connectionString =
-                $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
-                                                                                                       /* Мишино:*///@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+
+               // $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
+                                                                                                       /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+
                                                                                                                    /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
         public static SqlConnection sqlConnection = new SqlConnection(connectionString);
         public static bool isConnected = false;
@@ -92,6 +94,63 @@ namespace DBLab
                 return 0;
         }
 
+        public static void deleteTable(string _tableName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from Entity where id in (select id from Entity where Name=N'"+_tableName+"')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void dropTable(string _tableName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from String where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'"+_tableName+"')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Integer where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Date where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Float where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "') ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+        }
+
         public static void AddAttr(string _name, int _table, string _type, int _key, int _null)
         {
             SqlCommand command = sqlConnection.CreateCommand();
@@ -141,6 +200,40 @@ namespace DBLab
             }
         }
 
+        public static void DelAttr(string _tableName)
+        {
+            List<int> attrIds = new List<int>();
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select id_Attribute from EA where id_Entity in (select id from Entity where Name=N'" + _tableName + "')";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    attrIds.Add(Convert.ToInt32(reader[0].ToString()));
+                }
+                reader.Close();
+            }
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from EA where id_Entity in (select id from Entity where Name=N'" + _tableName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            foreach (int i in attrIds)
+            {
+                command.CommandText = "delete from Attribute where id =N'" + i + "'";
+
+                if (isConnected == true)
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public static DataTable FillDgvAttr(int table)
         {
             SqlCommand command = sqlConnection.CreateCommand();
@@ -182,6 +275,21 @@ namespace DBLab
             else
             {
                 MessageBox.Show("Не удалось добавить связь.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public static void DelRelation(string _tableName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from Relation where id_EntityS in (select id from Entity where Name=N'" + _tableName + "') or id_EntityT in (select id from Entity where Name=N'" + _tableName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
             }
         }
 
@@ -251,6 +359,181 @@ namespace DBLab
             return dt;
         }
 
+
+        public static string getPrimaryKeyAttr(string table_Name)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            String id_Entity = getIdByName(table_Name);
+            command.CommandText = "select Name from Attribute where id in (select id_Attribute from EA where primary_key = 1 and id_Entity=N'"+id_Entity+"')";
+            String attrName = "";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    attrName = reader[0].ToString();
+               }
+                reader.Close();
+            }
+            return attrName;
+        }
+
+        public static string getIdByName(string name)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select id from Entity where Name =N'" + name + "'";
+            String id = "";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    id = reader[0].ToString();
+                }
+                reader.Close();
+            }
+            return id;
+        }
+
+        public static string getAttrtype(string attrName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select type from EA where id_Attribute in (select id from Attribute where Name = N'"+attrName+"')";
+            String attrType = "";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    attrType = reader[0].ToString();
+                }
+                reader.Close();
+            }
+            return attrType;
+        }
+
+        public static void addData(string attrColName, string attrColValue, string entity_name,string id_InstanceEntity)
+        {
+            String attrType = getAttrtype(attrColName);
+            switch (attrType)
+            {
+                case "string":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'"+id_InstanceEntity+@"')
+                                                 update String
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName+ @"')
+                                                 and id_InstanceEntity =N'"+id_InstanceEntity+ @"' ;
+                                              else
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
+                                                insert into String(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = "+id_Entity+@"), N'"+attrColValue+@"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity ="+id_Entity+"; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                break;
+                case "integer":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                                                 update Integer
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
+                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                              else
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
+                                                insert into Integer(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = " + id_Entity + @"), N'" + attrColValue + @"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity =" + id_Entity + "; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "Date":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                                                 update Date
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
+                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                              else
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
+                                                insert into Date(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = " + id_Entity + @"), N'" + attrColValue + @"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity =" + id_Entity + "; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "real":
+                    {
+                        String id_Entity = getIdByName(entity_name);
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                                                 update Real
+                                                 set value = N'" + attrColValue + @"'
+                                                 where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
+                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                              else
+                                                insert into InstanceEntity(id_Entity)
+                                                values(" + id_Entity + @");
+                                                insert into Real(id_Attribute, id_InstanceEntity, value)
+                                                values((select id from Attribute where Name = N'" + attrColName + @"'), (select max(id_InstanceEntity) from InstanceEntity where id_Entity = " + id_Entity + @"), N'" + attrColValue + @"');
+                                                select max(id_InstanceEntity)from InstanceEntity where id_Entity =" + id_Entity + "; ";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+
         public static DataTable FillDgvQuery()
         {
             SqlCommand command = sqlConnection.CreateCommand();
@@ -279,6 +562,7 @@ namespace DBLab
             else
             {
                 MessageBox.Show("Не удалось добавить запрос в БД.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
     }
