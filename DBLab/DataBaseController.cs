@@ -12,8 +12,10 @@ namespace DBLab
     class DataBaseController
     {
         private static String connectionString =
+
                // $@"Data Source=(localdb)\localdb12;Initial Catalog=metaLabDB;Integrated Security=True";// можно просто тут менять путь один раз
                                                                                                        /* Мишино:*/$@"Data Source=(localdb)\Projects;Initial Catalog=metaLabDB;Integrated Security=True";
+
                                                                                                                    /* Мишино:*///$@"Data Source=(localdb)\db12;Initial Catalog=metaLabDB;Integrated Security=True";
         public static SqlConnection sqlConnection = new SqlConnection(connectionString);
         public static bool isConnected = false;
@@ -304,7 +306,7 @@ namespace DBLab
             return dt;
         }
 
-        public static DataTable GetValueAttr(int c, string tablename, string atrname)
+        public static DataTable GetValueAttr(int c, string tablename, string atrname, string cond = "")
         {
             SqlCommand command = sqlConnection.CreateCommand();
             switch (c)
@@ -356,6 +358,7 @@ namespace DBLab
             }
             return dt;
         }
+
 
         public static string getPrimaryKeyAttr(string table_Name)
         {
@@ -530,6 +533,36 @@ namespace DBLab
                         }
                     }
                     break;
+
+        public static DataTable FillDgvQuery()
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select string from Queries";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            if (isConnected == true)
+            {
+                adapter.Fill(dt);
+            }
+            return dt;
+        }
+
+        public static void AddQuery(string query)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "insert into Queries (string) values(N'" + query + "'); ";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось добавить запрос в БД.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
     }

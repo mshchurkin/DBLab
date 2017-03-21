@@ -258,6 +258,10 @@ namespace DBLab
         private void lvTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             deleteTable.Enabled = true;
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            Queries frmQuery = new Queries();
+            frmQuery.ShowDialog();
         }
     }
 }
