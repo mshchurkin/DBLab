@@ -250,14 +250,15 @@ namespace DBLab
         private void deleteTable_Click(object sender, EventArgs e)
         {
             DataBaseController.dropTable(lvTables.SelectedItems[0].Text);
-            DataBaseController.DelRelation(lvTables.SelectedItems[0].Text);
-            DataBaseController.DelAttr(lvTables.SelectedItems[0].Text);
+            DataBaseController.DelRelationByEntity(lvTables.SelectedItems[0].Text);
+            DataBaseController.DelAttrByEntity(lvTables.SelectedItems[0].Text);
             DataBaseController.deleteTable(lvTables.SelectedItems[0].Text);
         }
 
         private void lvTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             deleteTable.Enabled = true;
+        }
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             Queries frmQuery = new Queries();

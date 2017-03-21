@@ -100,5 +100,18 @@ namespace DBLab
                 Editer(dgvAttributes.CurrentCell.RowIndex);
             this.Close();
         }
+
+        private void dgvAttributes_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DelAttr.Enabled = true;
+        }
+
+        private void DelAttr_Click(object sender, EventArgs e)
+        {
+            string nameValue = dgvAttributes.CurrentRow.Cells[2].Value.ToString();
+            DataBaseController.dropTableByAttr(nameValue);
+            DataBaseController.DelRelationByAttr(nameValue);
+            DataBaseController.DelAttrByAttr(nameValue);
+        }
     }
 }
