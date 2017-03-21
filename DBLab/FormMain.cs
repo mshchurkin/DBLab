@@ -228,10 +228,9 @@ namespace DBLab
             }
             if (ifPKValueNotExists == true)
             {
-                for (int i = 0; i < dgv.RowCount - 1; i++)
                     for (int j = 1; j < dgv.ColumnCount; j++)
                     {
-                        DataBaseController.addData(dgv.Rows[i].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[i].Cells[j].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[i].Cells[0].Value.ToString());
+                        DataBaseController.addData(dgv.Rows[row].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[row].Cells[j].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[row].Cells[0].Value.ToString());
                     }
             }
             else
@@ -241,6 +240,10 @@ namespace DBLab
         private void delDtaBtn_Click(object sender, EventArgs e)
         {
             int row = dgv.CurrentCell.RowIndex;
+                for (int j = 1; j < dgv.ColumnCount; j++)
+                {
+                    DataBaseController.dropTableEntry(dgv.Rows[row].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[row].Cells[j].Value.ToString());
+                }
         }
 
         private void dgv_RowEnter(object sender, DataGridViewCellEventArgs e)
