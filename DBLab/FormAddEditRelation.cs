@@ -82,5 +82,15 @@ namespace DBLab
         {
             this.Close();
         }
+
+        private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            DeleteRealtion.Enabled = true;
+        }
+
+        private void DeleteRealtion_Click(object sender, EventArgs e)
+        {
+            DataBaseController.DelRelationByName(dataGridView1.CurrentRow.Cells["Имя связи"].Value.ToString());
+        }
     }
 }
