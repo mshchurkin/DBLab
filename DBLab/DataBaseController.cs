@@ -92,6 +92,63 @@ namespace DBLab
                 return 0;
         }
 
+        public static void deleteTable(string _tableName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from Entity where id in (select id from Entity where Name=N'"+_tableName+"')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void dropTable(string _tableName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from String where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'"+_tableName+"')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Integer where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Date where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from Float where id_InstanceEntity in (select id_InstanceEntity from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "')) ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            command.CommandText = "delete from InstanceEntity where id_Entity in(select id from Entity where Name=N'" + _tableName + "') ";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+        }
+
         public static void AddAttr(string _name, int _table, string _type, int _key, int _null)
         {
             SqlCommand command = sqlConnection.CreateCommand();
@@ -141,6 +198,40 @@ namespace DBLab
             }
         }
 
+        public static void DelAttr(string _tableName)
+        {
+            List<int> attrIds = new List<int>();
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "select id_Attribute from EA where id_Entity in (select id from Entity where Name=N'" + _tableName + "')";
+            if (isConnected == true)
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    attrIds.Add(Convert.ToInt32(reader[0].ToString()));
+                }
+                reader.Close();
+            }
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from EA where id_Entity in (select id from Entity where Name=N'" + _tableName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+
+            foreach (int i in attrIds)
+            {
+                command.CommandText = "delete from Attribute where id =N'" + i + "'";
+
+                if (isConnected == true)
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public static DataTable FillDgvAttr(int table)
         {
             SqlCommand command = sqlConnection.CreateCommand();
@@ -182,6 +273,21 @@ namespace DBLab
             else
             {
                 MessageBox.Show("Не удалось добавить связь.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public static void DelRelation(string _tableName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from Relation where id_EntityS in (select id from Entity where Name=N'" + _tableName + "') or id_EntityT in (select id from Entity where Name=N'" + _tableName + "')";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
             }
         }
 

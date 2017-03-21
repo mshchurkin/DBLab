@@ -40,6 +40,7 @@
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.addRelation = new System.Windows.Forms.ToolStripButton();
             this.dgv = new System.Windows.Forms.DataGridView();
+            this.delDtaBtn = new System.Windows.Forms.ToolStripButton();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -56,6 +57,7 @@
             this.lvTables.Size = new System.Drawing.Size(171, 413);
             this.lvTables.TabIndex = 0;
             this.lvTables.UseCompatibleStateImageBehavior = false;
+            this.lvTables.SelectedIndexChanged += new System.EventHandler(this.lvTables_SelectedIndexChanged);
             this.lvTables.DoubleClick += new System.EventHandler(this.lvTables_DoubleClick);
             // 
             // tsMain
@@ -68,7 +70,8 @@
             this.toolStripLabel2,
             this.addAttribute,
             this.toolStripLabel3,
-            this.addRelation});
+            this.addRelation,
+            this.delDtaBtn});
             this.tsMain.Location = new System.Drawing.Point(0, 0);
             this.tsMain.Name = "tsMain";
             this.tsMain.Size = new System.Drawing.Size(655, 25);
@@ -102,10 +105,12 @@
             // deleteTable
             // 
             this.deleteTable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.deleteTable.Enabled = false;
             this.deleteTable.Image = ((System.Drawing.Image)(resources.GetObject("deleteTable.Image")));
             this.deleteTable.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteTable.Name = "deleteTable";
             this.deleteTable.Size = new System.Drawing.Size(23, 22);
+            this.deleteTable.Click += new System.EventHandler(this.deleteTable_Click);
             // 
             // toolStripLabel2
             // 
@@ -148,6 +153,18 @@
             this.dgv.TabIndex = 2;
             this.dgv.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellEndEdit);
             this.dgv.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_DataError);
+            this.dgv.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_RowEnter);
+            // 
+            // delDtaBtn
+            // 
+            this.delDtaBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.delDtaBtn.Image = ((System.Drawing.Image)(resources.GetObject("delDtaBtn.Image")));
+            this.delDtaBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.delDtaBtn.Name = "delDtaBtn";
+            this.delDtaBtn.Size = new System.Drawing.Size(95, 22);
+            this.delDtaBtn.Text = "Удалить строку";
+            this.delDtaBtn.Visible = false;
+            this.delDtaBtn.Click += new System.EventHandler(this.delDtaBtn_Click);
             // 
             // FormMain
             // 
@@ -182,6 +199,7 @@
         private System.Windows.Forms.ToolStripButton addAttribute;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.ToolStripButton addRelation;
+        private System.Windows.Forms.ToolStripButton delDtaBtn;
     }
 }
 

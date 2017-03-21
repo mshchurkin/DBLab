@@ -202,6 +202,11 @@ namespace DBLab
             dgv.Columns[0].Visible = true;
         }
 
+        private void updateGrid()
+        {
+            
+        }
+
         private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
 
@@ -214,20 +219,45 @@ namespace DBLab
             bool ifPKValueNotExists = true;
             String newPKValue = dgv.Rows[row].Cells[columnPrimaryKey].Value.ToString();
             for (int i = 0; i < dgv.RowCount - 1; i++)
+            {
                 if (i != row)
                     if (dgv.Rows[i].Cells[columnPrimaryKey].Value.ToString() == newPKValue)
                         ifPKValueNotExists = false;
+            }
             if (ifPKValueNotExists == true)
             {
-
                 for (int i = 0; i < dgv.RowCount - 1; i++)
                     for (int j = 1; j < dgv.ColumnCount; j++)
                     {
                         DataBaseController.addData(dgv.Rows[i].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[i].Cells[j].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[i].Cells[0].Value.ToString());
+                        updateGrid();
                     }
             }
             else
                 MessageBox.Show("Ошибка", "Данный первичный ключ уже существует");
+        }
+
+        private void delDtaBtn_Click(object sender, EventArgs e)
+        {
+            int row = dgv.CurrentCell.RowIndex;
+        }
+
+        private void dgv_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            delDtaBtn.Visible = true;
+        }
+
+        private void deleteTable_Click(object sender, EventArgs e)
+        {
+            DataBaseController.dropTable(lvTables.SelectedItems[0].Text);
+            DataBaseController.DelRelation(lvTables.SelectedItems[0].Text);
+            DataBaseController.DelAttr(lvTables.SelectedItems[0].Text);
+            DataBaseController.deleteTable(lvTables.SelectedItems[0].Text);
+        }
+
+        private void lvTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            deleteTable.Enabled = true;
         }
     }
 }
