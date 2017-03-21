@@ -39,10 +39,10 @@
             this.addAttribute = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.addRelation = new System.Windows.Forms.ToolStripButton();
-            this.dgv = new System.Windows.Forms.DataGridView();
             this.delDtaBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -73,9 +73,9 @@
             this.addAttribute,
             this.toolStripLabel3,
             this.addRelation,
-            this.delDtaBtn,
             this.toolStripLabel4,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.delDtaBtn});
             this.tsMain.Location = new System.Drawing.Point(0, 0);
             this.tsMain.Name = "tsMain";
             this.tsMain.Size = new System.Drawing.Size(655, 25);
@@ -146,27 +146,13 @@
             this.addRelation.Size = new System.Drawing.Size(23, 22);
             this.addRelation.Click += new System.EventHandler(this.addRelation_Click);
             // 
-            // dgv
-            // 
-            this.dgv.AllowUserToOrderColumns = true;
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv.Location = new System.Drawing.Point(171, 25);
-            this.dgv.Name = "dgv";
-            this.dgv.Size = new System.Drawing.Size(484, 413);
-            this.dgv.TabIndex = 2;
-            this.dgv.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellEndEdit);
-            this.dgv.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_DataError);
-            this.dgv.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_RowEnter);
-            // 
             // delDtaBtn
             // 
             this.delDtaBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.delDtaBtn.Image = ((System.Drawing.Image)(resources.GetObject("delDtaBtn.Image")));
             this.delDtaBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.delDtaBtn.Name = "delDtaBtn";
-            this.delDtaBtn.Size = new System.Drawing.Size(95, 22);
-            this.delDtaBtn.Text = "Удалить строку";
+            this.delDtaBtn.Size = new System.Drawing.Size(55, 22);
+            this.delDtaBtn.Text = "Удалить";
             this.delDtaBtn.Visible = false;
             this.delDtaBtn.Click += new System.EventHandler(this.delDtaBtn_Click);
             // 
@@ -185,6 +171,19 @@
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // dgv
+            // 
+            this.dgv.AllowUserToOrderColumns = true;
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.Location = new System.Drawing.Point(171, 25);
+            this.dgv.Name = "dgv";
+            this.dgv.Size = new System.Drawing.Size(484, 413);
+            this.dgv.TabIndex = 2;
+            this.dgv.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellEndEdit);
+            this.dgv.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgv_DataError);
+            this.dgv.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_RowEnter);
             // 
             // FormMain
             // 

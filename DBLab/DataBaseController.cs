@@ -142,6 +142,85 @@ namespace DBLab
             }
         }
 
+        public static void dropTableEntry(string attrColName, string attrColValue)
+        {
+            String attrType = getAttrtype(attrColName);
+            switch (attrType)
+            {
+                case "string":
+                    {
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = "delete from String where value=N'" + attrColValue + "' and id_Attribute in (select id from Attribute where Name = N'"+attrColName+"')";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось удалить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "integer":
+                    {
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = "delete from Integer where value=N'" + attrColValue + "' and id_Attribute in (select id from Attribute where Name = N'" + attrColName + "')";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "Date":
+                    {
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = "delete from Date where value=N'" + attrColValue + "' and id_Attribute in (select id from Attribute where Name = N'" + attrColName + "')";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+                case "float":
+                    {
+                        SqlCommand command = sqlConnection.CreateCommand();
+                        command.CommandText = "delete from Float where value=N'" + attrColValue + "' and id_Attribute in (select id from Attribute where Name = N'" + attrColName + "')";
+
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                        if (isConnected == true)
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка", "Не удалось добавить данные.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    break;
+            }
+        }
         public static void dropTable(string _tableName)
         {
             SqlCommand command = sqlConnection.CreateCommand();
