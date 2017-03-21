@@ -378,6 +378,21 @@ namespace DBLab
             }
         }
 
+        public static void DelRelationByName(string _relName)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            command.CommandText = "delete from Relation where binder=N'"+_relName+"'";
+
+            if (isConnected == true)
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
         public static DataTable GetAttrForData(string table)
         {
             SqlCommand command = sqlConnection.CreateCommand();
