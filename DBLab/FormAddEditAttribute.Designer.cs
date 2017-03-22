@@ -51,6 +51,7 @@
             // dgvAttributes
             // 
             this.dgvAttributes.AllowUserToAddRows = false;
+            this.dgvAttributes.AllowUserToDeleteRows = false;
             this.dgvAttributes.AllowUserToResizeColumns = false;
             this.dgvAttributes.AllowUserToResizeRows = false;
             this.dgvAttributes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;

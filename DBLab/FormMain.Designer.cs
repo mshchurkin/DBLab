@@ -39,9 +39,9 @@
             this.addAttribute = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.addRelation = new System.Windows.Forms.ToolStripButton();
-            this.delDtaBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.delDtaBtn = new System.Windows.Forms.ToolStripButton();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.tsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -146,16 +146,6 @@
             this.addRelation.Size = new System.Drawing.Size(23, 22);
             this.addRelation.Click += new System.EventHandler(this.addRelation_Click);
             // 
-            // delDtaBtn
-            // 
-            this.delDtaBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.delDtaBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.delDtaBtn.Name = "delDtaBtn";
-            this.delDtaBtn.Size = new System.Drawing.Size(55, 22);
-            this.delDtaBtn.Text = "Удалить";
-            this.delDtaBtn.Visible = false;
-            this.delDtaBtn.Click += new System.EventHandler(this.delDtaBtn_Click);
-            // 
             // toolStripLabel4
             // 
             this.toolStripLabel4.Name = "toolStripLabel4";
@@ -172,9 +162,21 @@
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
+            // delDtaBtn
+            // 
+            this.delDtaBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.delDtaBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.delDtaBtn.Name = "delDtaBtn";
+            this.delDtaBtn.Size = new System.Drawing.Size(55, 22);
+            this.delDtaBtn.Text = "Удалить";
+            this.delDtaBtn.Visible = false;
+            this.delDtaBtn.Click += new System.EventHandler(this.delDtaBtn_Click);
+            // 
             // dgv
             // 
-            this.dgv.AllowUserToOrderColumns = true;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AllowUserToResizeColumns = false;
+            this.dgv.AllowUserToResizeRows = false;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv.Location = new System.Drawing.Point(171, 25);
