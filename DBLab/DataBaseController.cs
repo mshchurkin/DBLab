@@ -593,6 +593,8 @@ namespace DBLab
 
         public static void addData(string attrColName, string attrColValue, string entity_name, string id_InstanceEntity)
         {
+            if (id_InstanceEntity == "")
+                id_InstanceEntity = (-1).ToString();
             String attrType = getAttrtype(attrColName);
             switch (attrType)
             {
@@ -600,11 +602,11 @@ namespace DBLab
                     {
                         String id_Entity = getIdByName(entity_name);
                         SqlCommand command = sqlConnection.CreateCommand();
-                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =" + id_InstanceEntity + @")
                                                  update String
                                                  set value = N'" + attrColValue + @"'
                                                  where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
-                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                                 and id_InstanceEntity =" + id_InstanceEntity + @" ;
                                               else
                                                 insert into InstanceEntity(id_Entity)
                                                 values(" + id_Entity + @");
@@ -629,11 +631,11 @@ namespace DBLab
                     {
                         String id_Entity = getIdByName(entity_name);
                         SqlCommand command = sqlConnection.CreateCommand();
-                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity = " + id_InstanceEntity + @")
                                                  update Integer
                                                  set value = N'" + attrColValue + @"'
                                                  where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
-                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                                 and id_InstanceEntity =" + id_InstanceEntity + @" ;
                                               else
                                                 insert into InstanceEntity(id_Entity)
                                                 values(" + id_Entity + @");
@@ -658,11 +660,11 @@ namespace DBLab
                     {
                         String id_Entity = getIdByName(entity_name);
                         SqlCommand command = sqlConnection.CreateCommand();
-                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =" + id_InstanceEntity + @")
                                                  update Date
                                                  set value = N'" + attrColValue + @"'
                                                  where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
-                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                                 and id_InstanceEntity =" + id_InstanceEntity + @" ;
                                               else
                                                 insert into InstanceEntity(id_Entity)
                                                 values(" + id_Entity + @");
@@ -687,11 +689,11 @@ namespace DBLab
                     {
                         String id_Entity = getIdByName(entity_name);
                         SqlCommand command = sqlConnection.CreateCommand();
-                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =N'" + id_InstanceEntity + @"')
+                        command.CommandText = @"if exists(select 1 from InstanceEntity where id_InstanceEntity =" + id_InstanceEntity + @")
                                                  update Real
                                                  set value = N'" + attrColValue + @"'
                                                  where id_Attribute in (select id from Attribute where Name = N'" + attrColName + @"')
-                                                 and id_InstanceEntity =N'" + id_InstanceEntity + @"' ;
+                                                 and id_InstanceEntity =" + id_InstanceEntity + @" ;
                                               else
                                                 insert into InstanceEntity(id_Entity)
                                                 values(" + id_Entity + @");
