@@ -218,6 +218,7 @@ namespace DBLab
         {
             String columnPrimaryKey = DataBaseController.getPrimaryKeyAttr(lvTables.SelectedItems[0].Text);
             int row = dgv.CurrentCell.RowIndex;
+            int column = dgv.CurrentCell.ColumnIndex;
             bool ifPKValueNotExists = true;
             String newPKValue = dgv.Rows[row].Cells[columnPrimaryKey].Value.ToString();
             for (int i = 0; i < dgv.RowCount - 1; i++)
@@ -226,12 +227,18 @@ namespace DBLab
                     if (dgv.Rows[i].Cells[columnPrimaryKey].Value.ToString() == newPKValue)
                         ifPKValueNotExists = false;
             }
+            DataTable dt = new DataTable();
             if (ifPKValueNotExists == true)
             {
-                    for (int j = 1; j < dgv.ColumnCount; j++)
-                    {
-                        DataBaseController.addData(dgv.Rows[row].Cells[j].OwningColumn.Name.ToString(), dgv.Rows[row].Cells[j].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[row].Cells[0].Value.ToString());
-                    }
+                    //for (int j = 1; j < dgv.ColumnCount; j++)
+                    //{
+                    
+                        dt=DataBaseController.addData(dgv.Rows[row].Cells[column].OwningColumn.Name.ToString(), dgv.Rows[row].Cells[column].Value.ToString(), lvTables.SelectedItems[0].Text, dgv.Rows[row].Cells[0].Value.ToString());
+
+                        if (dt.Rows.Count > 0)
+                            dgv[0, row].Value = dt.Rows[0][0];
+               // DataBaseController.DelMaxRow((dgv.Rows[row].Cells[column].OwningColumn.Name.ToString()));
+                    //}
             }
             else
                 MessageBox.Show("Ошибка", "Данный первичный ключ уже существует");
